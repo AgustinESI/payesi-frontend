@@ -1,0 +1,13 @@
+.alert {
+  width: 40%;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1050;
+  transition: opacity 0.5s ease-out;
+  opacity: 1;
+}
+
+.alert.fade-out {
+  opacity: 0;
+}

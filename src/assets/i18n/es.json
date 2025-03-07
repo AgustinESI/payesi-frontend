@@ -1,0 +1,29 @@
+{
+  "login.subtitle": "¡La forma rápida y segura de enviar y recibir dinero!",
+  "login.description": "Únete a una nueva era de pagos digitales donde puedes enviar, solicitar y gestionar dinero al instante con facilidad. Conéctate con amigos, divide cuentas y realiza transacciones sin complicaciones, en cualquier momento y en cualquier lugar. Di adiós al efectivo y a las transferencias complicadas. ¡Comienza a usar PayEsi hoy y experimenta la libertad financiera sin interrupciones!",
+  "login.stay.logged": "Mantener sesión iniciada",
+  "login.login": "Iniciar sesión",
+  "login.password": "Contraseña",
+  "login.email": "Correo electrónico",
+
+  "home.welcome.back": "¡Bienvenido de nuevo, ",
+  "home.money.balance": "Balance de dinero",
+  "home.send.money": "Enviar dinero",
+  "home.request.money": "Solicitar dinero",
+  "home.transactions": "Transacciones",
+  "home.recent.activity": "Actividad reciente",
+  "home.credit.card": "Cuenta bancaria y tarjetas de crédito",
+  "home.friends": "Amigos",
+  "home.transfer.money": "Transferir dinero",
+  "home.send": "Enviar",
+  "home.request": "Solicitar",
+
+  "home.modal.card.number": "Número de tarjeta",
+  "home.modal.card.name": "Nombre del titular de la tarjeta",
+  "home.modal.card.expiry": "Fecha de vencimiento (MM/YY)",
+  "home.modal.card.cvv": "CVV",
+  "home.modal.card.type": "Tipo",
+  "home.modal.button.close": "Cerrar",
+  "home.modal.button.save": "Guardar",
+  "home.modal.title": "Agregar una nueva tarjeta"
+}

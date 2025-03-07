@@ -1,0 +1,20 @@
+<div
+  *ngIf="showAlert"
+  class="alert alert-{{ type }}"
+  [ngClass]="{ 'fade-out': fadeOut }"
+  role="alert"
+>
+  <div class="row">
+    <h4></h4>
+  </div>
+  <div class="row">
+    <div class="col-1">
+      <span aria-hidden="true">
+        <i [ngClass]="getIcon()"></i>
+      </span>
+    </div>
+    <div class="col-11">
+      {{ message }}
+    </div>
+  </div>
+</div>

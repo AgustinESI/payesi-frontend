@@ -1,0 +1,96 @@
+<!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight title">
+          PayEsi <br />
+          <span class="subtitle"> {{ "login.subtitle" | translate }}</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+          {{ "login.description" | translate }}
+        </p>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div
+          id="radius-shape-1"
+          class="position-absolute rounded-circle shadow-5-strong"
+        ></div>
+        <div
+          id="radius-shape-2"
+          class="position-absolute shadow-5-strong"
+        ></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <div class="row" style="display: flex; justify-content: center">
+              <img
+                class="logo"
+                src="../../../assets/logo/payesi-logo.png"
+                alt="PayEsi Logo"
+              />
+            </div>
+
+            <form (ngSubmit)="authenticateUser()">
+              <!-- Email input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="email"
+                  id="eml"
+                  class="form-control"
+                  [(ngModel)]="email"
+                  name="email"
+                />
+                <label class="form-label" for="eml">{{
+                  "login.email" | translate
+                }}</label>
+              </div>
+
+              <!-- Password input -->
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input
+                  type="password"
+                  id="pwd"
+                  class="form-control"
+                  [(ngModel)]="password"
+                  name="password"
+                />
+                <label class="form-label" for="pwd">{{
+                  "login.password" | translate
+                }}</label>
+              </div>
+
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-center mb-4">
+                <input
+                  class="form-check-input me-2"
+                  type="checkbox"
+                  value=""
+                  id="form2Example33"
+                  checked
+                />
+                <label class="form-check-label" for="form2Example33">
+                  {{ "login.stay.logged" | translate }}
+                </label>
+              </div>
+
+              <div class="text-center">
+                <!-- Submit button -->
+                <button
+                  type="submit"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-block mb-4"
+                >
+                  {{ "login.login" | translate }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Design Block -->

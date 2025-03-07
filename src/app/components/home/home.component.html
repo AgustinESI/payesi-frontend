@@ -1,0 +1,461 @@
+<div class="main-container">
+  <div class="container mt-5 mb-5">
+    <div class="row mb-5">
+      <h2>{{ "home.welcome.back" | translate }} {{ user.name }}!</h2>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <!-- Money -->
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-3">
+                {{ "home.money.balance" | translate }}
+              </h5>
+              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <div class="card-text mt-4 mb-4">
+                <h1>0.00 €</h1>
+              </div>
+              <button type="button" class="btn btn-primary">
+                {{ "home.transfer.money" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Money -->
+        <!-- Transactions -->
+        <div class="row mt-5">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-3">
+                {{ "home.recent.activity" | translate }}
+              </h5>
+              <!-- Transaction -->
+              <div *ngFor="let transaction of transactions" class="row mb-3">
+                <div class="transaction-card d-flex">
+                  <div class="icon-container">
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/11782/11782214.png"
+                      alt="icon"
+                    />
+                  </div>
+                  <div class="transaction-info">
+                    <div class="transaction-title">
+                      {{ transaction.status }}
+                    </div>
+                    <div class="transaction-date">
+                      Date: {{ transaction.date | date : "dd/MM/yyyy" }}
+                    </div>
+                    <div class="transaction-date">
+                      Message: {{ transaction.message }}
+                    </div>
+                  </div>
+                  <div
+                    class="transaction-amount text-end"
+                    [ngClass]="{
+                      'text-success':
+                        transaction.transactionType === 'Insert money',
+                      'text-danger':
+                        transaction.transactionType === 'Delete money'
+                    }"
+                  >
+                    {{
+                      transaction.transactionType === "Insert money"
+                        ? "+"
+                        : "-"
+                    }}{{ transaction.amount }} €
+                  </div>
+                </div>
+              </div>
+              <!-- Transaction -->
+            </div>
+          </div>
+        </div>
+        <!-- Transactions -->
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <!-- Actions -->
+        <div class="card mb-5">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">
+                <button type="button" class="btn btn-primary w-100">
+                  {{ "home.send" | translate }}
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  type="button"
+                  class="btn btn-primary w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#requestMoney"
+                >
+                  {{ "home.request" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Actions -->
+
+        <!-- Credit Cards -->
+        <div class="card mb-5">
+          <div class="card-body">
+            <div
+              class="d-flex justify-content-between align-items-center card-title mb-3"
+            >
+              <h5>{{ "home.credit.card" | translate }}</h5>
+              <button
+                type="button"
+                class="btn"
+                data-bs-toggle="modal"
+                data-bs-target="#addCreditCard"
+              >
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+            </div>
+
+            <!-- Transaction -->
+            <div *ngFor="let card of user.creditCards">
+              <div class="credit-card d-flex mb-3">
+                <div class="icon-container">
+                  <img src="../../../assets/credit-card/visa.svg" alt="icon" />
+                </div>
+                <div class="transaction-info">
+                  <div class="credit-card-title">{{ card.cardHolderName }}</div>
+                  <div class="credit-card-number">
+                    Number: {{ card.number }}
+                  </div>
+                  <div class="credit-card-number">
+                    Expiration date: {{ card.expirationDate }}
+                  </div>
+                </div>
+                <div class="transaction-amount text-end text-danger">
+                  <button
+                    type="button"
+                    class="btn btn-info rounded-pill margin-rigth"
+                  >
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+
+                  <button type="button" class="btn btn-danger rounded-pill">
+                    <i class="bi bi-x-circle"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Transaction -->
+          </div>
+        </div>
+        <!-- Credit Cards -->
+        <!-- Users -->
+
+        <div class="card mb-5">
+          <div class="card-body">
+            <div
+              class="d-flex justify-content-between align-items-center card-title mb-3"
+            >
+              <h5>{{ "home.friends" | translate }}</h5>
+              <button type="button" class="btn">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+            </div>
+            <div class="row" *ngFor="let friend of user.friends">
+              <div class="card" style="border-radius: 15px">
+                <div class="card-body p-4">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <img
+                        src="{{ friend.image }}"
+                        alt="{{ friend.name }} Image"
+                        class="img-fluid"
+                        style="width: 180px; border-radius: 10px"
+                        onerror="this.onerror=null; this.src='../../../assets/image/default-user.png';"
+                      />
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-3"
+                      >
+                        <h5>{{ friend.name }}</h5>
+                        <button type="button" class="btn">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                      </div>
+                      <p class="mb-2 pb-1">{{ friend.email }}</p>
+                      <div
+                        class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary"
+                      >
+                        <div>
+                          <p class="small text-muted mb-1">
+                            {{ "home.friends" | translate }}
+                          </p>
+                          <p class="mb-0">5</p>
+                        </div>
+                        <div class="px-3">
+                          <p class="small text-muted mb-1">
+                            {{ "home.transactions" | translate }}
+                          </p>
+                          <p class="mb-0">976</p>
+                        </div>
+                      </div>
+                      <div class="d-flex pt-1">
+                        <button
+                          type="button"
+                          data-mdb-button-init
+                          data-mdb-ripple-init
+                          class="btn btn-outline-primary me-1 flex-grow-1"
+                        >
+                          Chat
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Users -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Credit Card Modal -->
+<div
+  class="modal fade"
+  id="addCreditCard"
+  tabindex="-1"
+  aria-labelledby="addCreditCardLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCreditCardLabel">
+          {{ "home.modal.title" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Credit card content -->
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="credit-card-modal">
+            <div class="logo">
+              <img
+                [src]="'../../../assets/credit-card/' + addCard.type + '.svg'"
+                alt="Logo"
+                class="logo-img"
+              />
+            </div>
+            <div class="number">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="0000 0000 0000 0000"
+                [(ngModel)]="addCard.number"
+                readonly
+              />
+            </div>
+            <div class="name">{{ addCard.cardHolderName }}</div>
+            <div class="expiry">{{ addCard.expirationDate }}</div>
+          </div>
+        </div>
+        <!-- Form to Edit Credit Card -->
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <label for="cardNumber">{{
+              "home.modal.card.number" | translate
+            }}</label>
+            <input
+              type="text"
+              id="cardNumber"
+              class="form-control"
+              placeholder="0000 0000 0000 0000"
+              [(ngModel)]="addCard.number"
+              (input)="formatCardNumber()"
+              maxlength="19"
+            />
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="cardHolder">{{
+              "home.modal.card.name" | translate
+            }}</label>
+            <input
+              type="text"
+              id="cardHolder"
+              class="form-control"
+              [(ngModel)]="addCard.cardHolderName"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="expirationDate">{{
+              "home.modal.card.expiry" | translate
+            }}</label>
+            <input
+              type="text"
+              id="expirationDate"
+              class="form-control"
+              placeholder="MM/YY"
+              [(ngModel)]="addCard.expirationDate"
+              name="expirationDate"
+              (input)="formatExpirationDate()"
+              maxlength="5"
+              pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$"
+              required
+              #expirationDate="ngModel"
+            />
+
+            <div
+              *ngIf="expirationDate.invalid && expirationDate.touched"
+              class="text-danger"
+            >
+              Expiration date must be in MM/YY format (e.g., 01/24).
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="cvv">CVV</label>
+            <input
+              type="text"
+              id="cvv"
+              class="form-control"
+              placeholder="CVV"
+              maxlength="3"
+              [(ngModel)]="addCard.cvv"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="bank">{{ "home.modal.card.type" | translate }}</label>
+            <select class="form-select" [(ngModel)]="addCard.type">
+              <option value="visa" selected>VISA</option>
+              <option value="master-card">Master Card</option>
+              <option value="american-express">American Express</option>
+              <option value="citi">Citi</option>
+            </select>
+          </div>
+        </div>
+        <!-- Credit card content -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          {{ "home.modal.button.close" | translate }}
+        </button>
+        <button type="button" class="btn btn-primary">
+          {{ "home.modal.button.save" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Credit Card Modal -->
+
+<!-- Request Money -->
+<div
+  class="modal fade"
+  id="requestMoney"
+  tabindex="-1"
+  aria-labelledby="requestMoneyLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requestMoneyLabel">
+          {{ "home.modal.title" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Request Money content -->
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label for="cardHolder">{{
+              "home.modal.card.name" | translate
+            }}</label>
+            <select class="form-select" [(ngModel)]="requestUser">
+              <option
+                *ngFor="let friend of user.friends"
+                value="{{ friend.dni }}"
+                selected
+              >
+                {{ friend.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="creditCard">{{
+              "home.modal.card.number" | translate
+            }}</label>
+            <select class="form-select" [(ngModel)]="requestUser">
+              <option
+                *ngFor="let card of user.creditCards"
+                value="{{ card.number }}"
+              >
+                {{ card.type + ", " + card.number }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="amount">{{
+              "home.modal.request.amount" | translate
+            }}</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="requestAmount"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <label for="message">{{
+              "home.modal.request.message" | translate
+            }}</label>
+            <textarea
+              class="form-control"
+              id="message"
+              rows="3"
+              [(ngModel)]="requestMessage"
+            ></textarea>
+          </div>
+        </div>
+        <!-- Request Money content -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            {{ "home.modal.button.close" | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="requestMoney()"
+          >
+            {{ "home.modal.button.save" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Request Money -->
+</div>

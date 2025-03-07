@@ -1,0 +1,31 @@
+{
+  "login.subtitle": "The Fast & Secure Way to Send and Receive Money!",
+  "login.description": "Join a new era of digital payments where you can instantly send, request, and manage money with ease. Connect with friends, split bills, and make hassle-free transactions—anytime, anywhere. Say goodbye to cash and complicated transfers. Start using PayEsi today and experience seamless financial freedom!",
+  "login.stay.logged": "Stay logged",
+  "login.login": "Login",
+  "login.password": "Password",
+  "login.email": "Email address",
+
+  "home.welcome.back": "Welcome back, ",
+  "home.money.balance": "Money balance",
+  "home.send.money": "Send money",
+  "home.request.money": "Request money",
+  "home.transactions": "Transactions",
+  "home.recent.activity": "Recent activity",
+  "home.credit.card": "Bank Account & Credit Cards",
+  "home.friends": "Friends",
+  "home.transfer.money": "Transfer money",
+  "home.send": "Send",
+  "home.request": "Request",
+
+  "home.modal.card.number": "Card number",
+  "home.modal.card.name": "Cardholder name",
+  "home.modal.card.expiry": "Expiry date (MM/YY)",
+  "home.modal.card.cvv": "CVV",
+  "home.modal.card.type": "Type",
+  "home.modal.button.close": "Close",
+  "home.modal.button.save": "Save",
+  "home.modal.title": "Add a new card",
+  "home.modal.request.amount": "Amount",
+  "home.modal.request.message": "Message"
+}
