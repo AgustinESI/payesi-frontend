@@ -5,9 +5,14 @@ export interface User {
   dni: string;
   name: string;
   email: string;
-  birthDate: string;
+  amount: BigInt;
+  phone: string;
+  pwd: string;
+  administrator: boolean;
+  address: string;
+  birth_date: string;
   active: boolean;
   image: string;
-  creditCards: CreditCard[];
+  credit_cards: CreditCard[];
   friends: Friend[];
 }

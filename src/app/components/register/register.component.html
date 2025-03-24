@@ -1,0 +1,179 @@
+<!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-12 position-relative">
+        <div
+          id="radius-shape-1"
+          class="position-absolute rounded-circle shadow-5-strong"
+        ></div>
+        <div
+          id="radius-shape-2"
+          class="position-absolute shadow-5-strong"
+        ></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <div class="row" style="display: flex; justify-content: center">
+              <img
+                class="logo"
+                src="../../../assets/logo/payesi-logo.png"
+                alt="PayEsi Logo"
+              />
+            </div>
+
+            <form (ngSubmit)="registerUser()">
+              <div class="row">
+                <div class="col-xl-6 col-sm-12">
+                  <!-- DNI -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="text"
+                      id="dni"
+                      class="form-control"
+                      [(ngModel)]="user.dni"
+                      name="dni"
+                    />
+                    <label class="form-label" for="dni">{{
+                      "register.dni" | translate
+                    }}</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Name -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="text"
+                      id="name"
+                      class="form-control"
+                      [(ngModel)]="user.name"
+                      name="name"
+                    />
+                    <label class="form-label" for="name">{{
+                      "register.name" | translate
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Email -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="email"
+                      id="email"
+                      class="form-control"
+                      [(ngModel)]="user.email"
+                      name="email"
+                    />
+                    <label class="form-label" for="email">{{
+                      "register.email" | translate
+                    }}</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Birth Date -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="date"
+                      id="birth_date"
+                      class="form-control"
+                      [(ngModel)]="user.birth_date"
+                      name="birth_date"
+                    />
+                    <label class="form-label" for="birth_date">{{
+                      "register.birth_date" | translate
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Phone -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="tel"
+                      id="phone"
+                      class="form-control"
+                      [(ngModel)]="user.phone"
+                      name="phone"
+                    />
+                    <label class="form-label" for="phone">{{
+                      "register.phone" | translate
+                    }}</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Address -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="text"
+                      id="address"
+                      class="form-control"
+                      [(ngModel)]="user.address"
+                      name="address"
+                    />
+                    <label class="form-label" for="address">{{
+                      "register.address" | translate
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Password -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      [(ngModel)]="password1"
+                      name="password"
+                    />
+                    <label class="form-label" for="password">{{
+                      "register.password" | translate
+                    }}</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-sm-12">
+                  <!-- Password -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      [(ngModel)]="password2"
+                      name="password"
+                    />
+                    <label class="form-label" for="password">{{
+                      "register.password" | translate
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <a routerLink="/login" class="btn btn-info btn-block mb-4">
+                  {{ "register.signin" | translate }}
+                </a>
+                <!-- Submit button -->
+                <button
+                  type="submit"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-block mb-4 signin"
+                >
+                  {{ "register.signup" | translate }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Design Block -->

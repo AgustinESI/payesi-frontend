@@ -20,8 +20,8 @@ export class LoginComponent {
 
   //public email: string = 'agustin@payesi.com';
   //public password: string = '5555';
-  public email: string = 'alonso@payesi.com';
-  public password: string = '9999';
+  public email: string = 'john.doe@example.com';
+  public password: string = 'securepassword123';
   public saveSession: boolean = false;
 
   authenticateUser() {
@@ -30,15 +30,8 @@ export class LoginComponent {
         if (res) {
           const token = res.token;
 
-          if (this.saveSession) {
-            localStorage.setItem(APP_CONSTANTS.STORAGE_TOKEN_NAME, token);
-          } else {
-            sessionStorage.setItem(APP_CONSTANTS.STORAGE_TOKEN_NAME, token);
-          }
-          localStorage.setItem(
-            APP_CONSTANTS.STORAGE_SESSION_NAME,
-            String(this.saveSession)
-          );
+          this.authService.storeToken(token, this.saveSession);
+
           this.router.navigate(['/home']);
         }
       },

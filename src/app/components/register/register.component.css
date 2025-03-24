@@ -58,10 +58,10 @@ section {
 }
 
 .logo {
-  width: 60%;
+  width: 30%;
   padding-bottom: 30px !important;
 }
 
-.register {
+.signin {
   margin-left: 50px !important;
 }

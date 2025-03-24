@@ -117,18 +117,20 @@
             </div>
 
             <!-- Transaction -->
-            <div *ngFor="let card of user.creditCards">
+            <div *ngFor="let card of user.credit_cards">
               <div class="credit-card d-flex mb-3">
                 <div class="icon-container">
                   <img src="../../../assets/credit-card/visa.svg" alt="icon" />
                 </div>
                 <div class="transaction-info">
-                  <div class="credit-card-title">{{ card.cardHolderName }}</div>
+                  <div class="credit-card-title">
+                    {{ card.card_holder_name }}
+                  </div>
                   <div class="credit-card-number">
                     Number: {{ card.number }}
                   </div>
                   <div class="credit-card-number">
-                    Expiration date: {{ card.expirationDate }}
+                    Expiration date: {{ card.expiration_date }}
                   </div>
                 </div>
                 <div class="transaction-amount text-end text-danger">
@@ -264,8 +266,8 @@
                 readonly
               />
             </div>
-            <div class="name">{{ addCard.cardHolderName }}</div>
-            <div class="expiry">{{ addCard.expirationDate }}</div>
+            <div class="name">{{ addCard.card_holder_name }}</div>
+            <div class="expiry">{{ addCard.expiration_date }}</div>
           </div>
         </div>
         <!-- Form to Edit Credit Card -->
@@ -295,7 +297,7 @@
               type="text"
               id="cardHolder"
               class="form-control"
-              [(ngModel)]="addCard.cardHolderName"
+              [(ngModel)]="addCard.card_holder_name"
             />
           </div>
           <div class="col-md-6">
@@ -307,7 +309,7 @@
               id="expirationDate"
               class="form-control"
               placeholder="MM/YY"
-              [(ngModel)]="addCard.expirationDate"
+              [(ngModel)]="addCard.expiration_date"
               name="expirationDate"
               (input)="formatExpirationDate()"
               maxlength="5"
@@ -353,7 +355,11 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           {{ "home.modal.button.close" | translate }}
         </button>
-        <button type="button" class="btn btn-primary">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="saveCreditCard()"
+        >
           {{ "home.modal.button.save" | translate }}
         </button>
       </div>
@@ -404,14 +410,31 @@
             <label for="creditCard">{{
               "home.modal.card.number" | translate
             }}</label>
-            <select class="form-select" [(ngModel)]="requestUser">
-              <option
-                *ngFor="let card of user.creditCards"
-                value="{{ card.number }}"
-              >
-                {{ card.type + ", " + card.number }}
-              </option>
-            </select>
+
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              ></button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li *ngFor="let card of user.credit_cards">
+                  <a class="dropdown-item">
+                    <img
+                      [src]="
+                        '../../../assets/credit-card/' + card.type + '.svg'
+                      "
+                      alt="Logo"
+                      class="logo-img me-2"
+                      width="30"
+                    />
+                    {{ card.number }}
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="col-md-4">
             <label for="amount">{{

@@ -8,6 +8,8 @@ import { User } from '../../models/user/user';
 import { TransactionService } from '../../services/transaction/transaction.service';
 import { Transaction } from '../../models/transaction/transaction';
 import { CreditCard } from '../../models/credit-card/credit-card';
+import { CreditCardService } from '../../services/credit-card/credit-card.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,7 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private transactionService: TransactionService,
+    private creditCardService: CreditCardService,
     private router: Router
   ) {}
 
@@ -36,8 +39,8 @@ export class HomeComponent implements OnInit {
     this.token = this.authService.getToken();
 
     if (this.token) {
+      console.log('Token: ', this.token);
       this.getMe(this.token);
-      this.getTransactions(this.token);
     } else {
       this.router.navigate(['/login']);
     }
@@ -116,11 +119,83 @@ export class HomeComponent implements OnInit {
   }
 
   public formatExpirationDate() {
-    let formattedValue = this.addCard.expirationDate.replace(/\D/g, '');
+    let formattedValue = this.addCard.expiration_date.replace(/\D/g, '');
     if (formattedValue.length >= 3) {
       formattedValue =
         formattedValue.substring(0, 2) + '/' + formattedValue.substring(2, 4);
     }
-    this.addCard.expirationDate = formattedValue;
+    this.addCard.expiration_date = formattedValue;
+  }
+
+  saveCreditCard(): void {
+    // Validate required fields
+    if (
+      !this.addCard.number ||
+      !this.addCard.card_holder_name ||
+      !this.addCard.expiration_date ||
+      !this.addCard.cvv
+    ) {
+      this.alertService.showAlert('warning', 'Please fill in all fields');
+      return;
+    }
+
+    // Call the service to save the credit card
+    this.creditCardService.addCreditCard(this.token, this.addCard).subscribe({
+      next: (res) => {
+        this.alertService.showAlert(
+          'success',
+          'Credit card saved successfully'
+        );
+        this.addCard = {
+          number: '',
+          card_holder_name: '',
+          expiration_date: '',
+          cvv: '',
+          active: true,
+          type: 'visa',
+          user_dni: '',
+        };
+        this.closeModal('addCreditCard');
+      },
+      error: (err) => {
+        this.alertService.showAlert('danger', 'Failed to save credit card');
+        console.error(err);
+      },
+    });
+  }
+
+  public deleteCreditCard(number: string): void {
+    this.creditCardService.deleteCreditCard(this.token, number).subscribe({
+      next: (res) => {
+        this.alertService.showAlert(
+          'success',
+          'Credit card saved successfully'
+        );
+        this.addCard = {
+          number: '',
+          card_holder_name: '',
+          expiration_date: '',
+          cvv: '',
+          active: true,
+          type: 'visa',
+          user_dni: '',
+        };
+        this.closeModal('addCreditCard');
+        this.getMe(this.token);
+      },
+      error: (err) => {
+        this.alertService.showAlert('danger', 'Failed to save credit card');
+        console.error(err);
+      },
+    });
+  }
+  public closeModal(modal_id: string): void {
+    const modalElement = document.getElementById(modal_id);
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
   }
 }

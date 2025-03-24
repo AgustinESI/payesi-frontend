@@ -1,9 +1,8 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top">
-  <!-- Container wrapper -->
   <div class="container">
     <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/home">
       <img
         class="logo"
         src="../../../assets/logo/payesi-logo.png"
@@ -26,85 +25,43 @@
 
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Left links -->
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex flex-column text-center active"
-            aria-current="page"
-            href="#"
-            ><i class="fas fa-home fa-lg my-2"></i
-            ><span class="small">Home</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex flex-column text-center"
-            aria-current="page"
-            href="#"
-            ><i class="fas fa-user-friends fa-lg my-2"></i
-            ><span class="small">My Network</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex flex-column text-center"
-            aria-current="page"
-            href="#"
-            ><i class="fas fa-briefcase fa-lg my-2"></i
-            ><span class="small">Jobs</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex flex-column text-center"
-            aria-current="page"
-            href="#"
-            ><i class="fas fa-comment-dots fa-lg my-2"></i
-            ><span class="small">Messaging</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex flex-column text-center"
-            aria-current="page"
-            href="#"
-            ><i class="fas fa-bell fa-lg my-2"></i
-            ><span class="small">Notifications</span></a
-          >
-        </li>
-        <select class="form-select" (change)="changeLang($event)">
-          <option [selected]="lang === 'en'" value="en">English</option>
-          <option [selected]="lang === 'es'" value="es">Spanish</option>
-        </select>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle d-flex align-items-center"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-mdb-dropdown-init
-            aria-expanded="false"
-          >
-            <img
-              src="https://mdbootstrap.com/img/Photos/Avatars/img%20(9).jpg"
-              class="rounded-circle"
-              height="30"
-              alt=""
-              loading="lazy"
-            />
+      <ul class="navbar-nav ms-auto d-flex align-items-center gap-3">
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link text-center" href="/home">
+            <i class="fas fa-home fa-lg my-2"></i><span>Home</span>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">My profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
-          </ul>
+        </li>
+
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link text-center" href="#">
+            <i class="fas fa-bell fa-lg my-2"></i><span>Administrator</span>
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <button class="nav-link text-center" (click)="openProfile()">
+            <i class="fas fa-user fa-lg my-2"></i><span>Profile</span>
+          </button>
+        </li>
+
+        <!-- Language Selector -->
+        <li class="nav-item">
+          <select
+            class="form-select lang-selector"
+            (change)="changeLang($event)"
+          >
+            <option [selected]="lang === 'en'" value="en">English</option>
+            <option [selected]="lang === 'es'" value="es">Spanish</option>
+          </select>
+        </li>
+
+        <!-- Logout Button -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <button class="btn btn-danger logout-btn" (click)="logoutUser()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
         </li>
       </ul>
-      <!-- Left links -->
     </div>
-    <!-- Collapsible wrapper -->
   </div>
-  <!-- Container wrapper -->
 </nav>
-<!-- Navbar -->

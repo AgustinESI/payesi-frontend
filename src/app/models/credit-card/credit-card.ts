@@ -1,8 +1,9 @@
 export interface CreditCard {
   number: string;
-  expirationDate: string;
+  card_holder_name: string;
+  expiration_date: string;
   active: boolean;
-  cardHolderName: string;
   type: string;
   cvv: string;
+  user_dni: string;
 }

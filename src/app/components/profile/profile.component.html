@@ -1,0 +1,215 @@
+<section class="profile-section">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav
+          aria-label="breadcrumb"
+          class="bg-body-tertiary rounded-3 p-3 mb-4"
+        >
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ user.name }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <div class="position-relative d-inline-block">
+              <img
+                [src]="
+                  user.image
+                    ? 'data:image/png;base64,' + user.image
+                    : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                "
+                alt="avatar"
+                class="rounded-circle img-fluid"
+              />
+
+              <button
+                *ngIf="edit"
+                type="button"
+                class="btn btn-primary position-absolute edit-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#imageUploadModal"
+              >
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+            </div>
+
+            <h5 class="my-3">{{ user.name }}</h5>
+            <p class="text-muted mb-1">Full Stack Developer</p>
+            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+            <div class="d-flex justify-content-center mb-2">
+              <button
+                *ngIf="followUser"
+                type="button"
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-primary"
+              >
+                Follow
+              </button>
+              <button
+                *ngIf="editableProfile"
+                type="button"
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-outline-primary ms-1"
+                (click)="editUser()"
+              >
+                Edit Profile
+              </button>
+              <button
+                *ngIf="edit"
+                type="button"
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-outline-primary ms-1"
+                (click)="updateUser()"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">{{ "profile.fullname" | translate }}</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control mb-0"
+                  [(ngModel)]="user.name"
+                  [disabled]="!edit"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">{{ "profile.dni" | translate }}</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control mb-0"
+                  value="{{ user.dni }}"
+                  disabled
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">{{ "profile.email" | translate }}</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="email"
+                  class="form-control mb-0"
+                  value="{{ user.email }}"
+                  disabled
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">{{ "profile.phone" | translate }}</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control mb-0"
+                  [(ngModel)]="user.phone"
+                  [disabled]="!edit"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">{{ "profile.address" | translate }}</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control mb-0"
+                  value="{{ user.address }}"
+                  [disabled]="!edit"
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">{{ "profile.birthdate" | translate }}</p>
+              </div>
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control mb-0"
+                  [(ngModel)]="user.birth_date"
+                  [disabled]="!edit"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div
+  class="modal fade"
+  id="imageUploadModal"
+  tabindex="-1"
+  aria-labelledby="imageUploadModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageUploadModalLabel">
+          Upload Profile Image
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        <div *ngIf="selectedFile">
+          <p>Selected File: {{ selectedFile.name }}</p>
+          <img
+            [src]="previewUrl"
+            *ngIf="previewUrl"
+            class="img-thumbnail mt-2"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="uploadImage()">
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
