@@ -156,6 +156,7 @@ export class HomeComponent implements OnInit {
           user_dni: '',
         };
         this.closeModal('addCreditCard');
+        this.getMe(this.token);
       },
       error: (err) => {
         this.alertService.showAlert('danger', 'Failed to save credit card');
