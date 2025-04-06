@@ -24,7 +24,11 @@ export class AppComponent implements AfterViewInit {
     setTimeout(() => {
       const currentPath = this.router.url; // Get the current URL
 
-      if (currentPath === '/login' || currentPath === '/register') {
+      if (
+        currentPath === '/login' ||
+        currentPath === '/register' ||
+        currentPath === '/admin'
+      ) {
         return; // Prevent navigation if we are already on login or register page
       }
 

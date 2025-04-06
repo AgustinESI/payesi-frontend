@@ -18,3 +18,8 @@ router-outlet {
   display: flex;
   flex-direction: column;
 }
+
+.content-wrapper {
+  flex: 1;
+  background-color: #eee !important;
+}

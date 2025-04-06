@@ -1,5 +1,18 @@
 <div class="main-container">
-  <div class="container mt-5 mb-5">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <nav
+          aria-label="breadcrumb"
+          class="bg-body-tertiary rounded-3 p-3 mb-4"
+        >
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">Home</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
     <div class="row mb-5">
       <h2>{{ "home.welcome.back" | translate }} {{ user.name }}!</h2>
     </div>
@@ -15,7 +28,7 @@
               </h5>
               <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
               <div class="card-text mt-4 mb-4">
-                <h1>0.00 €</h1>
+                <h1>{{ user.amount }} €</h1>
               </div>
               <button type="button" class="btn btn-primary">
                 {{ "home.transfer.money" | translate }}

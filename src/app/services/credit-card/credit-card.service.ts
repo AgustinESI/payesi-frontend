@@ -29,6 +29,17 @@ export class CreditCardService {
     );
   }
 
+  public getCreditCards(token: string): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+
+    return this.httpClient.get(
+      APP_CONSTANTS.API_BASE_URL + 'credit_cards/all',
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
   deleteCreditCard(token: string, number: string): Observable<any> {
     const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
 

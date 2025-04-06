@@ -20,6 +20,14 @@ export class UserService {
     });
   }
 
+  public getUsers(token: string): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+
+    return this.httpClient.get(APP_CONSTANTS.API_BASE_URL + 'users/all', {
+      headers: authHeaders,
+    });
+  }
+
   public getUserbyDNI(token: string, dni: string): Observable<any> {
     const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
 
@@ -50,6 +58,28 @@ export class UserService {
     return this.httpClient.post(
       APP_CONSTANTS.API_BASE_URL + 'users/create',
       body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public activateUser(token: string, dni: string) {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+    console.log(authHeaders);
+    return this.httpClient.get(
+      APP_CONSTANTS.API_BASE_URL + 'users/' + dni + '/active',
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public deleteUser(token: string, dni: string) {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+
+    return this.httpClient.delete(
+      APP_CONSTANTS.API_BASE_URL + 'users/' + dni + '/delete',
       {
         headers: authHeaders,
       }
