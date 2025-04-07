@@ -37,8 +37,10 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit() {
     this.token = this.authService.getToken();
+    console.log('1:', this.token);
 
     if (this.token) {
+      console.log('2');
       var userDNI = this.route.snapshot.paramMap.get('id') || '';
       this.getUser(userDNI);
     } else {
@@ -47,6 +49,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private getUser(userDNI: string): void {
+    console.log('3');
     if (userDNI && userDNI != '0') {
       this.userService.getUserbyDNI(this.token, userDNI).subscribe({
         next: (res) => {

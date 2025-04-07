@@ -18,6 +18,9 @@
   "home.transfer.money": "Transfer money",
   "home.send": "Send",
   "home.request": "Request",
+  "home.no.friends": "No friends yet",
+  "home.no.start": "Start adding friends to your network",
+  "home.view.profile": "View profile",
 
   "home.modal.card.number": "Card number",
   "home.modal.card.name": "Cardholder name",
@@ -29,6 +32,11 @@
   "home.modal.title": "Add a new card",
   "home.modal.request.amount": "Amount",
   "home.modal.request.message": "Message",
+
+  "home.modal.add.friends": "Add friends",
+  "home.modal.search.users": "Search users",
+  "home.modal.friend.requests": "Friend requests",
+  "home.modal.friend.no.requests": "You don´t have friend requests",
 
   "register.dni": "DNI / Identification Number",
   "register.name": "Full Name",

@@ -29,6 +29,7 @@
                 "
                 alt="avatar"
                 class="rounded-circle img-fluid"
+                style="width: 100px; height: 100px; object-fit: cover"
               />
 
               <button
@@ -44,15 +45,6 @@
 
             <h5 class="my-3">{{ user.name }}</h5>
             <div class="d-flex justify-content-center mb-2">
-              <button
-                *ngIf="followUser"
-                type="button"
-                data-mdb-button-init
-                data-mdb-ripple-init
-                class="btn btn-primary"
-              >
-                Follow
-              </button>
               <button
                 *ngIf="editableProfile"
                 type="button"

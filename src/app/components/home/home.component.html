@@ -172,9 +172,38 @@
               class="d-flex justify-content-between align-items-center card-title mb-3"
             >
               <h5>{{ "home.friends" | translate }}</h5>
-              <button type="button" class="btn">
-                <i class="bi bi-three-dots-vertical"></i>
+              <button
+                type="button"
+                class="btn btn-outline-dark position-relative"
+                data-bs-toggle="modal"
+                data-bs-target="#friendRequestsModal"
+              >
+                <i class="bi bi-bell"></i>
+
+                <!-- Red dot indicator -->
+                <span
+                  *ngIf="
+                    pendingFriendRequests && pendingFriendRequests.length > 0
+                  "
+                  class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+                  style="width: 10px; height: 10px; right: -5px; top: -5px"
+                ></span>
               </button>
+              <button
+                type="button"
+                class="btn"
+                data-bs-toggle="modal"
+                data-bs-target="#addFriend"
+              >
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+            <div *ngIf="!user.friends" class="text-center mb-3 friends">
+              <div class="text-center">
+                <i class="bi bi-people-fill fs-1 mb-2"></i>
+                <p class="fw-bold">{{ "home.no.friends" | translate }}</p>
+                <p class="text-muted">{{ "home.no.start" | translate }}</p>
+              </div>
             </div>
             <div class="row" *ngFor="let friend of user.friends">
               <div class="card" style="border-radius: 15px">
@@ -182,11 +211,14 @@
                   <div class="d-flex">
                     <div class="flex-shrink-0">
                       <img
-                        src="{{ friend.image }}"
-                        alt="{{ friend.name }} Image"
-                        class="img-fluid"
-                        style="width: 180px; border-radius: 10px"
-                        onerror="this.onerror=null; this.src='../../../assets/image/default-user.png';"
+                        [src]="
+                          friend.image
+                            ? 'data:image/png;base64,' + friend.image
+                            : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                        "
+                        alt="avatar"
+                        class="rounded-circle img-fluid"
+                        style="width: 50px; height: 50px; object-fit: cover"
                       />
                     </div>
                     <div class="flex-grow-1 ms-3">
@@ -194,8 +226,12 @@
                         class="d-flex justify-content-between align-items-center mb-3"
                       >
                         <h5>{{ friend.name }}</h5>
-                        <button type="button" class="btn">
-                          <i class="bi bi-three-dots-vertical"></i>
+                        <button
+                          type="button"
+                          class="btn"
+                          (click)="deleteFriend(friend.dni)"
+                        >
+                          <i class="bi bi-trash"></i>
                         </button>
                       </div>
                       <p class="mb-2 pb-1">{{ friend.email }}</p>
@@ -221,8 +257,9 @@
                           data-mdb-button-init
                           data-mdb-ripple-init
                           class="btn btn-outline-primary me-1 flex-grow-1"
+                          (click)="viewProfile(friend.dni)"
                         >
-                          Chat
+                          {{ "home.view.profile" | translate }}
                         </button>
                       </div>
                     </div>
@@ -406,9 +443,7 @@
         <!-- Request Money content -->
         <div class="row mt-3">
           <div class="col-md-4">
-            <label for="cardHolder">{{
-              "home.modal.card.name" | translate
-            }}</label>
+            <label for="cardHolder">{{ "home.friends" | translate }}</label>
             <select class="form-select" [(ngModel)]="requestUser">
               <option
                 *ngFor="let friend of user.friends"
@@ -495,3 +530,160 @@
   </div>
   <!-- Request Money -->
 </div>
+
+<!-- Add Friends -->
+
+<div
+  class="modal fade"
+  id="addFriend"
+  tabindex="-1"
+  aria-labelledby="addFriendLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addFriendLabel">
+          {{ "home.modal.add.friends" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body" style="max-height: 500px; overflow-y: auto">
+        <!-- Search input -->
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{ 'home.modal.search.users' | translate }}"
+            [(ngModel)]="searchTerm"
+          />
+        </div>
+
+        <!-- Users list -->
+        <div class="list-group">
+          <label
+            *ngFor="let u of usersFriends | userFilter : searchTerm"
+            class="list-group-item d-flex align-items-center gap-3"
+          >
+            <img
+              [src]="
+                u.image
+                  ? 'data:image/png;base64,' + u.image
+                  : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+              "
+              alt="avatar"
+              class="rounded-circle img-fluid"
+              style="width: 50px; height: 50px; object-fit: cover"
+            />
+
+            <div class="flex-grow-1">
+              <input
+                type="checkbox"
+                [value]="u.dni"
+                [(ngModel)]="u.selected"
+                class="form-check-input me-2"
+              />
+              {{ u.name }} - {{ u.email }}
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          {{ "home.modal.button.close" | translate }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="sendFriendRequests()"
+        >
+          {{ "home.modal.button.save" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Friends -->
+
+<!-- Modal Manage Friendship requests -->
+<div
+  class="modal fade"
+  id="friendRequestsModal"
+  tabindex="-1"
+  aria-labelledby="friendRequestsLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-slideout modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="friendRequestsLabel">
+          {{ "home.modal.friend.requests" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body overflow-auto">
+        <div
+          *ngIf="pendingFriendRequests.length === 0"
+          class="text-center text-muted mt-3"
+        >
+          <p>{{ "home.modal.friend.no.requests" | translate }}</p>
+        </div>
+
+        <div
+          *ngFor="let request of pendingFriendRequests"
+          class="d-flex justify-content-between align-items-center border-bottom py-2"
+        >
+          <!-- Sender's information -->
+          <div class="d-flex align-items-center">
+            <img
+              [src]="
+                request.sender.image
+                  ? 'data:image/png;base64,' + request.sender.image
+                  : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+              "
+              alt="sender-avatar"
+              class="rounded-circle img-fluid"
+              style="width: 50px; height: 50px; object-fit: cover"
+            />
+            <div class="ms-3">
+              <strong>{{ request.sender.name }}</strong>
+              <br />
+              <small>{{ request.sender.email }}</small>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-success me-2"
+              (click)="respondToRequest(request.id, true)"
+            >
+              Accept
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="respondToRequest(request.id, false)"
+            >
+              Reject
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Manage Friendship requests -->

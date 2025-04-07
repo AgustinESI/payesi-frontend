@@ -18,6 +18,9 @@
   "home.transfer.money": "Transferir dinero",
   "home.send": "Enviar",
   "home.request": "Solicitar",
+  "home.no.friends": "Aún no tienes amigos",
+  "home.no.start": "Empieza a agregar amigos a tu red",
+  "home.view.profile": "Ver perfil",
 
   "home.modal.card.number": "Número de tarjeta",
   "home.modal.card.name": "Nombre del titular de la tarjeta",
@@ -27,6 +30,11 @@
   "home.modal.button.close": "Cerrar",
   "home.modal.button.save": "Guardar",
   "home.modal.title": "Agregar una nueva tarjeta",
+
+  "home.modal.add.friends": "Añadir amigos",
+  "home.modal.search.users": "Buscar usuarios",
+  "home.modal.friend.requests": "Solicitudes de amistad",
+  "home.modal.friend.no.requests": "No tienes solicitudes de amistad",
 
   "register.dni": "DNI / Número de identificación",
   "register.name": "Nombre completo",

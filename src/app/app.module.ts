@@ -16,6 +16,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { UserFilterPipe } from './pipes/user-filter.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,6 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileComponent,
     RegisterComponent,
     AdminComponent,
+    UserFilterPipe,
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { APP_CONSTANTS } from '../../constants';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user/user';
+import { FriendshipRequest } from '../../models/user/friendship-request';
 
 @Injectable({
   providedIn: 'root',
@@ -99,6 +100,71 @@ export class UserService {
       {
         headers: authHeaders,
       }
+    );
+  }
+
+  public createFriendshipRequest(
+    token: string,
+    friend: string
+  ): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+
+    const body = {
+      friend_dni: friend,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'friendship/new',
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public getPendingFriendshipRequests(
+    token: string
+  ): Observable<FriendshipRequest[]> {
+    const authHeaders = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${token}`
+    );
+
+    return this.httpClient.get<FriendshipRequest[]>(
+      `${APP_CONSTANTS.API_BASE_URL}friendship/pending`,
+      { headers: authHeaders }
+    );
+  }
+
+  acceptFriendshipRequest(token: string, requestId: number): Observable<any> {
+    const authHeaders = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${token}`
+    );
+    return this.httpClient.post<FriendshipRequest[]>(
+      `${APP_CONSTANTS.API_BASE_URL}friendship/accept/` + requestId,
+      {},
+      { headers: authHeaders }
+    );
+  }
+
+  declineFriendshipRequest(token: string, requestId: number): Observable<any> {
+    const authHeaders = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${token}`
+    );
+    return this.httpClient.post<FriendshipRequest[]>(
+      `${APP_CONSTANTS.API_BASE_URL}friendship/reject/` + requestId,
+      {},
+      { headers: authHeaders }
+    );
+  }
+
+  deleteFriend(token: string, friendDni: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.httpClient.delete<any>(
+      `${APP_CONSTANTS.API_BASE_URL}friendship/delete/${friendDni}`,
+      { headers }
     );
   }
 }

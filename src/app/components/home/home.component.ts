@@ -9,6 +9,7 @@ import { TransactionService } from '../../services/transaction/transaction.servi
 import { Transaction } from '../../models/transaction/transaction';
 import { CreditCard } from '../../models/credit-card/credit-card';
 import { CreditCardService } from '../../services/credit-card/credit-card.service';
+import { FriendshipRequest } from '../../models/user/friendship-request';
 declare var bootstrap: any;
 
 @Component({
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   private token: string = '';
+  public searchTerm: string = '';
   public user: User = {} as User;
   public transactions: Transaction[] = [];
   public addCard: CreditCard = {} as CreditCard;
@@ -34,6 +36,8 @@ export class HomeComponent implements OnInit {
   public requestAmount: number = 0;
   public requestMessage: string = '';
   public requestCreditCard: CreditCard = {} as CreditCard;
+  public usersFriends: User[] = [];
+  public pendingFriendRequests: FriendshipRequest[] = [];
 
   ngOnInit(): void {
     this.token = this.authService.getToken();
@@ -41,11 +45,37 @@ export class HomeComponent implements OnInit {
     if (this.token) {
       console.log('Token: ', this.token);
       this.getMe(this.token);
+      this.getAllFriends(this.token);
+      this.getPendingRequests(this.token);
     } else {
       this.router.navigate(['/login']);
     }
 
     this.addCard.type = 'visa';
+  }
+
+  private getAllFriends(token: string): void {
+    this.userService.getUsers(token).subscribe({
+      next: (res) => {
+        if (res) {
+          const friendsDniSet = new Set(
+            this.user.friends.map((friend: any) => friend.dni)
+          );
+          this.usersFriends = res
+            .filter(
+              (user: { dni: string }) =>
+                user.dni !== this.user.dni && !friendsDniSet.has(user.dni)
+            )
+            .map((user: any) => ({
+              ...user,
+              selected: false,
+            }));
+        }
+      },
+      error: (err) => {
+        this.alertService.showAutoAlertError(err);
+      },
+    });
   }
 
   private getTransactions(token: string) {
@@ -128,6 +158,7 @@ export class HomeComponent implements OnInit {
   }
 
   saveCreditCard(): void {
+    this.closeModal('addCreditCard');
     // Validate required fields
     if (
       !this.addCard.number ||
@@ -155,7 +186,6 @@ export class HomeComponent implements OnInit {
           type: 'visa',
           user_dni: '',
         };
-        this.closeModal('addCreditCard');
         this.getMe(this.token);
       },
       error: (err) => {
@@ -166,6 +196,7 @@ export class HomeComponent implements OnInit {
   }
 
   public deleteCreditCard(number: string): void {
+    this.closeModal('addCreditCard');
     this.creditCardService.deleteCreditCard(this.token, number).subscribe({
       next: (res) => {
         this.alertService.showAlert(
@@ -181,7 +212,6 @@ export class HomeComponent implements OnInit {
           type: 'visa',
           user_dni: '',
         };
-        this.closeModal('addCreditCard');
         this.getMe(this.token);
       },
       error: (err) => {
@@ -198,5 +228,104 @@ export class HomeComponent implements OnInit {
         modalInstance.hide();
       }
     }
+  }
+
+  public sendFriendRequests(): void {
+    this.closeModal('addFriend');
+    const selectedUsers = this.usersFriends.filter(
+      (user: any) => user.selected
+    );
+
+    // Check if there are any selected users
+    if (selectedUsers.length === 0) {
+      this.alertService.showAlert('warning', 'No users selected');
+      return;
+    }
+
+    for (let user of selectedUsers) {
+      console.log('Sending friend request to:', user.dni);
+      this.userService.createFriendshipRequest(this.token, user.dni).subscribe({
+        next: (res) => {
+          this.alertService.showAlert(
+            'success',
+            'Friend request sent successfully'
+          );
+        },
+        error: (err) => {
+          this.alertService.showAutoAlertError(err);
+          console.error(err);
+        },
+      });
+    }
+  }
+
+  private getPendingRequests(token: string): void {
+    this.userService.getPendingFriendshipRequests(token).subscribe({
+      next: (res) => {
+        console.log('Pending requests:', res);
+        this.pendingFriendRequests = res;
+
+        if (this.pendingFriendRequests.length == 0) {
+          this.closeModal('friendRequestsModal');
+        }
+      },
+      error: (err) => {
+        this.alertService.showAutoAlertError(err);
+      },
+    });
+  }
+
+  public openFriendRequestsModal(): void {}
+
+  public respondToRequest(requestId: number, status: boolean): void {
+    if (status) {
+      this.userService
+        .acceptFriendshipRequest(this.token, requestId)
+        .subscribe({
+          next: (res) => {
+            this.alertService.showAlert(
+              'success',
+              'Friend request accepted successfully'
+            );
+            this.getPendingRequests(this.token);
+            this.getMe(this.token);
+          },
+          error: (err) => {
+            this.alertService.showAutoAlertError(err);
+          },
+        });
+    } else {
+      this.userService
+        .declineFriendshipRequest(this.token, requestId)
+        .subscribe({
+          next: (res) => {
+            this.alertService.showAlert(
+              'success',
+              'Friend request declined successfully'
+            );
+            this.getPendingRequests(this.token);
+          },
+          error: (err) => {
+            this.alertService.showAutoAlertError(err);
+          },
+        });
+    }
+  }
+
+  public deleteFriend(friendDni: string): void {
+    this.userService.deleteFriend(this.token, friendDni).subscribe({
+      next: (response) => {
+        this.alertService.showAlert('success', 'Friend deleted successfully');
+        this.getMe(this.token);
+        this.getAllFriends(this.token);
+      },
+      error: (error) => {
+        console.error('Error deleting friend:', error);
+      },
+    });
+  }
+
+  public viewProfile(dni: string): void {
+    this.router.navigate(['/profile/' + dni]);
   }
 }
