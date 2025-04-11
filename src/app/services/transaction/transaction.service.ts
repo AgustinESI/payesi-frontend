@@ -14,15 +14,38 @@ export class TransactionService {
   public getTransactions(token: string): Observable<any> {
     const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
 
-    return this.httpClient.get(
-      APP_CONSTANTS.API_BASE_URL + 'credit-card/transaction',
+    return this.httpClient.get(APP_CONSTANTS.API_BASE_URL + 'transactions/me', {
+      headers: authHeaders,
+    });
+  }
+
+  public sendMoney(
+    token: string,
+    amount: string,
+    message: string,
+    receiver: string,
+    credit_card_number: string
+  ): Observable<any> {
+    const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
+
+    var body = {
+      message: message,
+      amount: amount,
+      receiver_dni: receiver,
+      transaction_type: 'SEND',
+      credit_card_number: credit_card_number,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'transactions/create',
+      body,
       {
         headers: authHeaders,
       }
     );
   }
 
-  requestMoney(
+  public requestMoney(
     requestAmount: number,
     dni: string,
     requestMessage: string,

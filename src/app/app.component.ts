@@ -28,7 +28,7 @@ export class AppComponent implements AfterViewInit {
         currentPath === '/login' ||
         currentPath === '/register' ||
         currentPath === '/admin' ||
-        currentPath === '/profile'
+        currentPath === '/request'
       ) {
         return; // Prevent navigation if we are already on login or register page
       }

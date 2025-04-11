@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-
+    console.log('User:', this.user.friends);
     this.addCard.type = 'visa';
   }
 
@@ -327,5 +327,9 @@ export class HomeComponent implements OnInit {
 
   public viewProfile(dni: string): void {
     this.router.navigate(['/profile/' + dni]);
+  }
+
+  public sendMoney(): void {
+    this.router.navigate(['/request']);
   }
 }

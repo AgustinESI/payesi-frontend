@@ -1,0 +1,318 @@
+<div class="main-container">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <nav
+          aria-label="breadcrumb"
+          class="bg-body-tertiary rounded-3 p-3 mb-4"
+        >
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Request</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card shadow rounded p-4">
+        <h4 class="mb-4">{{ "money.send" | translate }}</h4>
+
+        <!-- Stepper -->
+        <div class="stepper-container position-relative mb-5">
+          <!-- Línea de fondo -->
+          <div class="stepper-line bg-light"></div>
+
+          <!-- Línea de progreso -->
+          <div
+            class="stepper-line-progress bg-primary"
+            [style.width]="getProgressWidth()"
+          ></div>
+          <!-- Círculos -->
+          <div
+            class="stepper-steps d-flex justify-content-between position-relative"
+          >
+            <div
+              *ngFor="let step of steps; let i = index"
+              class="text-center stepper-step"
+            >
+              <div
+                class="step-circle"
+                [class.bg-primary]="currentStep >= i"
+                [class.bg-light]="currentStep < i"
+              >
+                {{ i + 1 }}
+              </div>
+              <small class="d-block mt-2">{{ step }}</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Based on Step -->
+        <div class="mb-4 w-100">
+          <div *ngIf="currentStep === 0">
+            <h4>{{ "money.select.creditcard" | translate }}</h4>
+            <div class="selector">
+              <div
+                *ngFor="let card of user.credit_cards"
+                class="card-item"
+                [class.selected]="selectedCreditCard === card"
+                (click)="selectCard(card)"
+              >
+                <div class="card-icon text-primary">
+                  <img
+                    width="60%"
+                    [src]="'../../../assets/credit-card/' + card.type + '.svg'"
+                    alt="icon"
+                  />
+                </div>
+                <div class="card-info">
+                  <strong>{{ card.card_holder_name }}</strong>
+                  <div>{{ card.number }}</div>
+                  <small class="text-muted"
+                    >Exp: {{ card.expiration_date }}</small
+                  >
+                </div>
+                <div class="checkmark" *ngIf="selectedCreditCard === card">
+                  ✔
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="currentStep === 1">
+            <h4>{{ "money.select.friend" | translate }}</h4>
+
+            <div class="selector">
+              <div
+                *ngFor="let friend of user.friends"
+                class="card-item"
+                [class.selected]="selectedfriend === friend"
+                (click)="selectFriend(friend)"
+              >
+                <div class="card-icon text-primary">
+                  <img
+                    [src]="
+                      friend.image
+                        ? 'data:image/png;base64,' + friend.image
+                        : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                    "
+                    alt="avatar"
+                    class="rounded-circle img-fluid"
+                    style="width: 50px; height: 50px; object-fit: cover"
+                  />
+                </div>
+                <div class="card-info">
+                  <strong>{{ friend.name }}</strong>
+                </div>
+                <div class="checkmark" *ngIf="selectedfriend === friend">✔</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="currentStep === 2">
+            <h4>Insert an amount</h4>
+
+            <div class="selector">
+              <div
+                class="container d-flex justify-content-center align-items-center"
+              >
+                <div class="w-50">
+                  <!-- Input: Amount -->
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Amount</span>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-label="Amount (to the nearest dollar)"
+                      [(ngModel)]="selectedAmount"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+
+                  <!-- Textarea: Message -->
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Message</span>
+                    </div>
+                    <textarea
+                      class="form-control"
+                      rows="5"
+                      aria-label="Message"
+                      [(ngModel)]="selectedMessage"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="currentStep === 3">
+            <div class="selector">
+              <div
+                class="container d-flex justify-content-center align-items-center"
+              >
+                <div class="row">
+                  <div class="col-6">
+                    <div class="card-item">
+                      <div class="card-icon text-primary">
+                        <img
+                          width="60%"
+                          [src]="
+                            '../../../assets/credit-card/' +
+                            selectedCreditCard.type +
+                            '.svg'
+                          "
+                          alt="icon"
+                        />
+                      </div>
+                      <div class="card-info">
+                        <strong>{{
+                          selectedCreditCard.card_holder_name
+                        }}</strong>
+                        <div>{{ selectedCreditCard.number }}</div>
+                        <small class="text-muted"
+                          >Exp: {{ selectedCreditCard.expiration_date }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card-item">
+                      <div class="card-icon text-primary">
+                        <img
+                          [src]="
+                            selectedfriend.image
+                              ? 'data:image/png;base64,' + selectedfriend.image
+                              : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                          "
+                          alt="avatar"
+                          class="rounded-circle img-fluid"
+                          style="width: 50px; height: 50px; object-fit: cover"
+                        />
+                      </div>
+                      <div class="card-info">
+                        <strong>{{ selectedfriend.name }}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="container d-flex justify-content-center align-items-center"
+              >
+                <div class="row">
+                  <div class="col-12">
+                    <div class="amount-info">
+                      <strong>Amount selected: {{ selectedAmount }} €</strong>
+                    </div>
+                    <div class="message-info">
+                      <p>
+                        {{
+                          selectedMessage ||
+                            "Message: No transfer text has been provided."
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-between">
+          <button
+            class="btn btn-secondary"
+            (click)="prevStep()"
+            [disabled]="currentStep === 0"
+          >
+            {{ "money.back" | translate }}
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="nextStep()"
+            *ngIf="currentStep != 3"
+            [disabled]="currentStep === steps.length - 1"
+          >
+            {{ "money.next" | translate }}
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="sendMoney()"
+            *ngIf="currentStep === 3"
+          >
+            {{ "money.send" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="container py-4 transactions-content">
+        <h1 class="mb-4">Transacciones recientes</h1>
+
+        <div
+          *ngFor="let tran of transactions"
+          class="transaction-card"
+          [ngClass]="{ 'transaction-sent': tran.transaction_type === 'SEND' }"
+        >
+          <div class="d-flex justify-content-between align-items-start">
+            <div
+              *ngIf="tran.transaction_type != 'SEND'"
+              class="d-flex justify-content-center align-items-center"
+              style="
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #dcfce7;
+                color: #16a34a;
+              "
+            >
+              <i class="bi bi-arrow-down-left"></i>
+            </div>
+
+            <div
+              *ngIf="tran.transaction_type === 'SEND'"
+              class="d-flex justify-content-center align-items-center"
+              style="
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #fee2e2;
+                color: red;
+              "
+            >
+              <i class="bi bi-arrow-down-left"></i>
+            </div>
+
+            <div>
+              <h5 class="mb-1">Sent to {{ tran.receiver_name }}</h5>
+              <p class="mb-1 text-muted small">{{ tran.date }}</p>
+              <p *ngIf="tran.message" class="mb-0 transaction-note">
+                "{{ tran.message }}"
+              </p>
+            </div>
+
+            <span
+              *ngIf="tran.transaction_type === 'SEND'"
+              class="transaction-amount sent-amount"
+            >
+              -{{ tran.amount }}€
+            </span>
+
+            <span
+              *ngIf="tran.transaction_type != 'SEND'"
+              class="transaction-amount received-amount"
+            >
+              -{{ tran.amount }}€
+            </span>
+          </div>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,4 +7,7 @@ export interface Transaction {
   message: string;
   date: string;
   status: 'PENDING' | 'COMPLETED';
+  transaction_type: string;
+  sender_name: string;
+  receiver_name: string;
 }

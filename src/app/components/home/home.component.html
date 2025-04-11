@@ -93,7 +93,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-6">
-                <button type="button" class="btn btn-primary w-100">
+                <button
+                  type="button"
+                  class="btn btn-primary w-100"
+                  (click)="sendMoney()"
+                >
                   {{ "home.send" | translate }}
                 </button>
               </div>
@@ -198,7 +202,10 @@
                 <i class="bi bi-plus"></i>
               </button>
             </div>
-            <div *ngIf="!user.friends" class="text-center mb-3 friends">
+            <div
+              *ngIf="!user.friends || user.friends.length == 0"
+              class="text-center mb-3 friends"
+            >
               <div class="text-center">
                 <i class="bi bi-people-fill fs-1 mb-2"></i>
                 <p class="fw-bold">{{ "home.no.friends" | translate }}</p>
