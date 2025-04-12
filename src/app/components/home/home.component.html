@@ -48,10 +48,33 @@
               <div *ngFor="let transaction of transactions" class="row mb-3">
                 <div class="transaction-card d-flex">
                   <div class="icon-container">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/11782/11782214.png"
-                      alt="icon"
-                    />
+                    <div
+                      *ngIf="transaction.sender_dni != user.dni"
+                      class="d-flex justify-content-center align-items-center"
+                      style="
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background-color: #dcfce7;
+                        color: #16a34a;
+                      "
+                    >
+                      <i class="bi bi-arrow-up-right"></i>
+                    </div>
+
+                    <div
+                      *ngIf="transaction.sender_dni === user.dni"
+                      class="d-flex justify-content-center align-items-center"
+                      style="
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background-color: #fee2e2;
+                        color: red;
+                      "
+                    >
+                      <i class="bi bi-arrow-down-left"></i>
+                    </div>
                   </div>
                   <div class="transaction-info">
                     <div class="transaction-title">
@@ -68,16 +91,24 @@
                     class="transaction-amount text-end"
                     [ngClass]="{
                       'text-success':
-                        transaction.transactionType === 'Insert money',
+                        transaction.transaction_type === 'Insert money',
                       'text-danger':
-                        transaction.transactionType === 'Delete money'
+                        transaction.transaction_type === 'Delete money'
                     }"
                   >
-                    {{
-                      transaction.transactionType === "Insert money"
-                        ? "+"
-                        : "-"
-                    }}{{ transaction.amount }} €
+                    <span
+                      *ngIf="transaction.sender_dni === user.dni"
+                      class="transaction-amount sent-amount"
+                    >
+                      -{{ transaction.amount }}€
+                    </span>
+
+                    <span
+                      *ngIf="transaction.sender_dni != user.dni"
+                      class="transaction-amount received-amount"
+                    >
+                      +{{ transaction.amount }}€
+                    </span>
                   </div>
                 </div>
               </div>
@@ -563,6 +594,8 @@
 
       <div class="modal-body" style="max-height: 500px; overflow-y: auto">
         <!-- Search input -->
+
+        <h4 class="mt-2">Add friends</h4>
         <div class="mb-3">
           <input
             type="text"
@@ -576,6 +609,45 @@
         <div class="list-group">
           <label
             *ngFor="let u of usersFriends | userFilter : searchTerm"
+            class="list-group-item d-flex align-items-center gap-3"
+          >
+            <img
+              [src]="
+                u.image
+                  ? 'data:image/png;base64,' + u.image
+                  : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+              "
+              alt="avatar"
+              class="rounded-circle img-fluid"
+              style="width: 50px; height: 50px; object-fit: cover"
+            />
+
+            <div class="flex-grow-1">
+              <input
+                type="checkbox"
+                [value]="u.dni"
+                [(ngModel)]="u.selected"
+                class="form-check-input me-2"
+              />
+              {{ u.name }} - {{ u.email }}
+            </div>
+          </label>
+        </div>
+
+        <h4 class="mt-5">Add as favourite</h4>
+
+        <!-- Search input -->
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{ 'home.modal.search.users' | translate }}"
+            [(ngModel)]="searchTermFavorites"
+          />
+        </div>
+        <div class="list-group">
+          <label
+            *ngFor="let u of usersFavorites | userFilter : searchTermFavorites"
             class="list-group-item d-flex align-items-center gap-3"
           >
             <img

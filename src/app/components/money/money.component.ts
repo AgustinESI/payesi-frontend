@@ -27,9 +27,11 @@ export class MoneyComponent implements OnInit {
   public currentStep: number = 0;
   public user: User = {} as User;
   public transactions: Transaction[] = [];
+  public groupUser: boolean = false;
 
   public selectedCreditCard: CreditCard = {} as CreditCard;
   public selectedfriend: Friend = {} as Friend;
+  public groupSelectedFriends: Friend[] = [];
   public selectedAmount: string = '';
   public selectedMessage: string = '';
 
@@ -86,9 +88,16 @@ export class MoneyComponent implements OnInit {
           return;
         }
       } else if (this.currentStep == 1) {
-        if (!this.selectedfriend.dni) {
-          this.alertService.showAlert('danger', 'Please select a friend');
-          return;
+        if (this.groupUser) {
+          if (this.groupSelectedFriends.length == 0) {
+            this.alertService.showAlert('danger', 'Please select a friend');
+            return;
+          }
+        } else {
+          if (!this.selectedfriend.dni) {
+            this.alertService.showAlert('danger', 'Please select a friend');
+            return;
+          }
         }
       } else if (this.currentStep == 2) {
         if (this.selectedAmount.length == 0) {
@@ -116,30 +125,67 @@ export class MoneyComponent implements OnInit {
   }
 
   public selectFriend(friend: Friend): void {
-    if (this.selectedfriend && this.selectedfriend.dni) {
-      this.selectedfriend = {} as Friend;
+    console.log(friend);
+    if (this.groupUser) {
+      if (this.isUserSelected(friend)) {
+        this.groupSelectedFriends = this.groupSelectedFriends.filter(
+          (f) => f.dni !== friend.dni
+        );
+      } else {
+        this.groupSelectedFriends.push(friend);
+      }
     } else {
-      this.selectedfriend = friend;
+      if (this.selectedfriend && this.selectedfriend.dni) {
+        this.selectedfriend = {} as Friend;
+      } else {
+        this.selectedfriend = friend;
+      }
     }
   }
 
+  public isUserSelected(friend: Friend): boolean {
+    if (this.groupUser) {
+      return this.groupSelectedFriends.some((f) => f.dni === friend.dni);
+    }
+    return this.selectedfriend && this.selectedfriend.dni === friend.dni;
+  }
+
   public sendMoney(): void {
+    if (this.groupUser) {
+      var amount =
+        parseFloat(this.selectedAmount) / this.groupSelectedFriends.length;
+      for (let i = 0; i < this.groupSelectedFriends.length; i++) {
+        this.sendMoneyRequest(this.groupSelectedFriends[i], amount.toString());
+      }
+    } else {
+      this.sendMoneyRequest(this.selectedfriend, this.selectedAmount);
+    }
+
+    this.currentStep = 0;
+    this.selectedCreditCard = {} as CreditCard;
+    this.selectedfriend = {} as Friend;
+    this.selectedAmount = '';
+    this.selectedMessage = '';
+    this.groupSelectedFriends = [];
+  }
+
+  private sendMoneyRequest(friend: Friend, amount: string): void {
     this.transactionService
       .sendMoney(
         this.token,
-        this.selectedAmount,
+        amount,
         this.selectedMessage,
-        this.selectedfriend.dni,
+        friend.dni,
         this.selectedCreditCard.number
       )
       .subscribe({
         next: (res) => {
-          this.alertService.showAlert('success', 'Money sent successfully');
-          this.currentStep = 0;
-          this.selectedCreditCard = {} as CreditCard;
-          this.selectedfriend = {} as Friend;
-          this.selectedAmount = '';
-          this.selectedMessage = '';
+          this.alertService.showAlert(
+            'success',
+            'Money sent successfully to ' + friend.name
+          );
+
+          this.getTransactions(this.token);
         },
         error: (err) => {
           this.alertService.showAutoAlertError(err);

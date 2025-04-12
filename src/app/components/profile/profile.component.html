@@ -43,7 +43,12 @@
               </button>
             </div>
 
-            <h5 class="my-3">{{ user.name }}</h5>
+            <h5 *ngIf="!favourite" class="my-3">{{ user.name }}</h5>
+
+            <h5 *ngIf="favourite" class="my-3">
+              {{ user.name }} <i class="bi bi-star-fill"></i>
+            </h5>
+
             <div class="d-flex justify-content-center mb-2">
               <button
                 *ngIf="editableProfile"

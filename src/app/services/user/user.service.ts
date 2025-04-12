@@ -103,6 +103,21 @@ export class UserService {
     );
   }
 
+  addFavourite(token: string, dni: string): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+    const body = {
+      favourite_dni: dni,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'friendship/favourite',
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
   public createFriendshipRequest(
     token: string,
     friend: string

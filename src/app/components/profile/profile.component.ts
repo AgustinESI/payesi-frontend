@@ -30,26 +30,27 @@ export class ProfileComponent implements OnInit {
   private base64String: string = '';
 
   public user: User = {} as User;
+  public currentUser: User = {} as User;
   private token: string = '';
   public editableProfile: boolean = false;
   public edit: boolean = false;
   public followUser: boolean = true;
+  private counter = 0;
+  public favourite: boolean = false;
 
   async ngOnInit() {
     this.token = this.authService.getToken();
-    console.log('1:', this.token);
 
     if (this.token) {
-      console.log('2');
       var userDNI = this.route.snapshot.paramMap.get('id') || '';
       this.getUser(userDNI);
+      this.getMe();
     } else {
       this.router.navigate(['/login']);
     }
   }
 
   private getUser(userDNI: string): void {
-    console.log('3');
     if (userDNI && userDNI != '0') {
       this.userService.getUserbyDNI(this.token, userDNI).subscribe({
         next: (res) => {
@@ -79,7 +80,8 @@ export class ProfileComponent implements OnInit {
     this.userService.getMe(this.token).subscribe({
       next: (res) => {
         if (res) {
-          this.user = res;
+          this.currentUser = res;
+          this.favourite = this.isUserFavorite();
         }
       },
       error: (err) => {
@@ -157,5 +159,17 @@ export class ProfileComponent implements OnInit {
         modalInstance.hide();
       }
     }
+  }
+
+  private isUserFavorite(): boolean {
+    this.counter++;
+    console.log(this.counter);
+    if (this.currentUser && this.user) {
+      const list = new Set(
+        this.currentUser.favourite_users.map((friend: any) => friend.dni)
+      );
+      return list.has(this.user.dni);
+    }
+    return false;
   }
 }

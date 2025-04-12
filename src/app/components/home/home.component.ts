@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
 
   private token: string = '';
   public searchTerm: string = '';
+  public searchTermFavorites: string = '';
   public user: User = {} as User;
   public transactions: Transaction[] = [];
   public addCard: CreditCard = {} as CreditCard;
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
   public requestMessage: string = '';
   public requestCreditCard: CreditCard = {} as CreditCard;
   public usersFriends: User[] = [];
+  public usersFavorites: User[] = [];
   public pendingFriendRequests: FriendshipRequest[] = [];
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class HomeComponent implements OnInit {
       this.getMe(this.token);
       this.getAllFriends(this.token);
       this.getPendingRequests(this.token);
+      this.getTransactions(this.token);
     } else {
       this.router.navigate(['/login']);
     }
@@ -65,6 +68,20 @@ export class HomeComponent implements OnInit {
             .filter(
               (user: { dni: string }) =>
                 user.dni !== this.user.dni && !friendsDniSet.has(user.dni)
+            )
+            .map((user: any) => ({
+              ...user,
+              selected: false,
+            }));
+
+          const favouritesDniSet = new Set(
+            this.user.favourite_users.map((friend: any) => friend.dni)
+          );
+
+          this.usersFavorites = res
+            .filter(
+              (user: { dni: string }) =>
+                user.dni !== this.user.dni && !favouritesDniSet.has(user.dni)
             )
             .map((user: any) => ({
               ...user,
@@ -232,23 +249,34 @@ export class HomeComponent implements OnInit {
 
   public sendFriendRequests(): void {
     this.closeModal('addFriend');
-    const selectedUsers = this.usersFriends.filter(
-      (user: any) => user.selected
-    );
+    var selectedUsers = this.usersFriends.filter((user: any) => user.selected);
 
-    // Check if there are any selected users
-    if (selectedUsers.length === 0) {
-      this.alertService.showAlert('warning', 'No users selected');
-      return;
+    if (selectedUsers.length > 0) {
+      for (let user of selectedUsers) {
+        this.userService
+          .createFriendshipRequest(this.token, user.dni)
+          .subscribe({
+            next: (res) => {
+              this.alertService.showAlert(
+                'success',
+                'Friend request sent successfully'
+              );
+            },
+            error: (err) => {
+              this.alertService.showAutoAlertError(err);
+              console.error(err);
+            },
+          });
+      }
     }
 
+    selectedUsers = this.usersFavorites.filter((user: any) => user.selected);
     for (let user of selectedUsers) {
-      console.log('Sending friend request to:', user.dni);
-      this.userService.createFriendshipRequest(this.token, user.dni).subscribe({
+      this.userService.addFavourite(this.token, user.dni).subscribe({
         next: (res) => {
           this.alertService.showAlert(
             'success',
-            'Friend request sent successfully'
+            user.name + ' added as favourite successfully'
           );
         },
         error: (err) => {

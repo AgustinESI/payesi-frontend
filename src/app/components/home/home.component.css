@@ -139,3 +139,25 @@
   flex: 1;
   overflow-y: auto;
 }
+
+.sent-amount {
+  color: #dc3545;
+}
+.received-amount {
+  color: #28a745;
+}
+.transaction-note {
+  color: #6c757d;
+  font-style: italic;
+}
+hr {
+  margin: 0.5rem 0;
+  opacity: 0.2;
+}
+
+.transactions-content {
+  margin-top: 50px !important;
+  margin-bottom: 50px !important;
+  background-color: #ffff !important;
+  padding: 50px !important;
+}

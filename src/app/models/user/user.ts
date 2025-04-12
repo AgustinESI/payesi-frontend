@@ -15,4 +15,6 @@ export interface User {
   image: string;
   credit_cards: CreditCard[];
   friends: Friend[];
+  blocked_users: Friend[];
+  favourite_users: Friend[];
 }

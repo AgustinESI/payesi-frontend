@@ -82,29 +82,88 @@
           <div *ngIf="currentStep === 1">
             <h4>{{ "money.select.friend" | translate }}</h4>
 
-            <div class="selector">
-              <div
-                *ngFor="let friend of user.friends"
-                class="card-item"
-                [class.selected]="selectedfriend === friend"
-                (click)="selectFriend(friend)"
-              >
-                <div class="card-icon text-primary">
-                  <img
-                    [src]="
-                      friend.image
-                        ? 'data:image/png;base64,' + friend.image
-                        : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
-                    "
-                    alt="avatar"
-                    class="rounded-circle img-fluid"
-                    style="width: 50px; height: 50px; object-fit: cover"
-                  />
+            <div class="row" style="margin: 20px 0 20px 2px">
+              <div class="alert alert-info d-flex align-items-center gap-2">
+                <input
+                  class="form-check-input mt-0"
+                  type="checkbox"
+                  id="shareCosts"
+                  [(ngModel)]="groupUser"
+                />
+                <label class="form-check-label fw-bold mb-0" for="shareCosts">
+                  Share costs with multiple users
+                </label>
+              </div>
+            </div>
+
+            <div class="selector-users">
+              <div class="row justify-content-center">
+                <div class="col-4">
+                  <h4>Friends</h4>
+                  <div class="crollable-container">
+                    <div
+                      *ngFor="let friend of user.friends"
+                      class="card-item mb-3"
+                      [class.selected]="isUserSelected(friend)"
+                      (click)="selectFriend(friend)"
+                    >
+                      <div class="card-icon text-primary">
+                        <img
+                          [src]="
+                            friend.image
+                              ? 'data:image/png;base64,' + friend.image
+                              : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                          "
+                          alt="avatar"
+                          class="rounded-circle img-fluid"
+                          style="width: 50px; height: 50px; object-fit: cover"
+                        />
+                      </div>
+                      <div class="card-info">
+                        <strong>{{ friend.name }}</strong>
+                      </div>
+                      <div class="checkmark" *ngIf="isUserSelected(friend)">
+                        ✔
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="card-info">
-                  <strong>{{ friend.name }}</strong>
+                <div class="col-4">
+                  <h4>Favourites</h4>
+                  <div class="crollable-container">
+                    <div
+                      *ngFor="let favourite_users of user.favourite_users"
+                      class="card-item mb-3"
+                      [class.selected]="isUserSelected(favourite_users)"
+                      (click)="selectFriend(favourite_users)"
+                    >
+                      <div class="card-icon text-primary">
+                        <img
+                          [src]="
+                            favourite_users.image
+                              ? 'data:image/png;base64,' + favourite_users.image
+                              : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                          "
+                          alt="avatar"
+                          class="rounded-circle img-fluid"
+                          style="width: 50px; height: 50px; object-fit: cover"
+                        />
+                      </div>
+                      <div class="card-info">
+                        <strong>{{ favourite_users.name }}</strong>
+                      </div>
+                      <div
+                        class="checkmark"
+                        *ngIf="isUserSelected(favourite_users)"
+                      >
+                        ✔
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="checkmark" *ngIf="selectedfriend === friend">✔</div>
+                <div class="col-4">
+                  <h4>Recents</h4>
+                </div>
               </div>
             </div>
           </div>
@@ -179,21 +238,47 @@
                     </div>
                   </div>
                   <div class="col-6">
-                    <div class="card-item">
-                      <div class="card-icon text-primary">
-                        <img
-                          [src]="
-                            selectedfriend.image
-                              ? 'data:image/png;base64,' + selectedfriend.image
-                              : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
-                          "
-                          alt="avatar"
-                          class="rounded-circle img-fluid"
-                          style="width: 50px; height: 50px; object-fit: cover"
-                        />
+                    <div *ngIf="groupUser">
+                      <div
+                        *ngFor="let userSelected of groupSelectedFriends"
+                        class="card-item"
+                      >
+                        <div class="card-icon text-primary">
+                          <img
+                            [src]="
+                              userSelected.image
+                                ? 'data:image/png;base64,' + userSelected.image
+                                : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                            "
+                            alt="avatar"
+                            class="rounded-circle img-fluid"
+                            style="width: 50px; height: 50px; object-fit: cover"
+                          />
+                        </div>
+                        <div class="card-info">
+                          <strong>{{ userSelected.name }}</strong>
+                        </div>
                       </div>
-                      <div class="card-info">
-                        <strong>{{ selectedfriend.name }}</strong>
+                    </div>
+
+                    <div *ngIf="!groupUser">
+                      <div class="card-item">
+                        <div class="card-icon text-primary">
+                          <img
+                            [src]="
+                              selectedfriend.image
+                                ? 'data:image/png;base64,' +
+                                  selectedfriend.image
+                                : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                            "
+                            alt="avatar"
+                            class="rounded-circle img-fluid"
+                            style="width: 50px; height: 50px; object-fit: cover"
+                          />
+                        </div>
+                        <div class="card-info">
+                          <strong>{{ selectedfriend.name }}</strong>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -257,58 +342,67 @@
         <div
           *ngFor="let tran of transactions"
           class="transaction-card"
-          [ngClass]="{ 'transaction-sent': tran.transaction_type === 'SEND' }"
+          [ngClass]="{ 'transaction-sent': tran.sender_dni === user.dni }"
         >
-          <div class="d-flex justify-content-between align-items-start">
-            <div
-              *ngIf="tran.transaction_type != 'SEND'"
-              class="d-flex justify-content-center align-items-center"
-              style="
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background-color: #dcfce7;
-                color: #16a34a;
-              "
-            >
-              <i class="bi bi-arrow-down-left"></i>
+          <div class="row">
+            <div class="col-4">
+              <div
+                *ngIf="tran.sender_dni != user.dni"
+                class="d-flex justify-content-center align-items-center"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  background-color: #dcfce7;
+                  color: #16a34a;
+                "
+              >
+                <i class="bi bi-arrow-up-right"></i>
+              </div>
+
+              <div
+                *ngIf="tran.sender_dni === user.dni"
+                class="d-flex justify-content-center align-items-center"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  background-color: #fee2e2;
+                  color: red;
+                "
+              >
+                <i class="bi bi-arrow-down-left"></i>
+              </div>
             </div>
 
-            <div
-              *ngIf="tran.transaction_type === 'SEND'"
-              class="d-flex justify-content-center align-items-center"
-              style="
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background-color: #fee2e2;
-                color: red;
-              "
-            >
-              <i class="bi bi-arrow-down-left"></i>
-            </div>
-
-            <div>
-              <h5 class="mb-1">Sent to {{ tran.receiver_name }}</h5>
+            <div class="col-4">
+              <h5 *ngIf="tran.sender_dni === user.dni" class="mb-1">
+                Sent to {{ tran.receiver_name }}
+              </h5>
+              <h5 *ngIf="tran.sender_dni != user.dni" class="mb-1">
+                Received from {{ tran.sender_name }}
+              </h5>
               <p class="mb-1 text-muted small">{{ tran.date }}</p>
               <p *ngIf="tran.message" class="mb-0 transaction-note">
                 "{{ tran.message }}"
               </p>
             </div>
 
-            <span
-              *ngIf="tran.transaction_type === 'SEND'"
-              class="transaction-amount sent-amount"
-            >
-              -{{ tran.amount }}€
-            </span>
+            <div class="col-4">
+              <span
+                *ngIf="tran.sender_dni === user.dni"
+                class="transaction-amount sent-amount"
+              >
+                -{{ tran.amount }}€
+              </span>
 
-            <span
-              *ngIf="tran.transaction_type != 'SEND'"
-              class="transaction-amount received-amount"
-            >
-              -{{ tran.amount }}€
-            </span>
+              <span
+                *ngIf="tran.sender_dni != user.dni"
+                class="transaction-amount received-amount"
+              >
+                +{{ tran.amount }}€
+              </span>
+            </div>
           </div>
           <hr />
         </div>

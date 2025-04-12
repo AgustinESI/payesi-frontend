@@ -67,9 +67,14 @@
 .selector {
   background-color: #f9fafb !important;
   padding: 40px !important;
-
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.selector-users {
+  background-color: #f9fafb !important;
+  padding: 40px !important;
   gap: 1rem;
 }
 
@@ -147,4 +152,12 @@ hr {
   margin-bottom: 50px !important;
   background-color: #ffff !important;
   padding: 50px !important;
+}
+
+.scrollable-container {
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
 }
