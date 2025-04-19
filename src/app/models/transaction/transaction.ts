@@ -5,9 +5,11 @@ export interface Transaction {
   amount: bigint;
   message: string;
   date: string;
-  status: 'PENDING' | 'COMPLETED';
+  responded_at: string;
+  status: 'PENDING' | 'COMPLETED' | 'REJECTED';
   transaction_type: string;
-  sender_name: string;
   sender_dni: string;
+  receiver_dni: string;
   receiver_name: string;
+  sender_name: string;
 }

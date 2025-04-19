@@ -1,13 +1,41 @@
 .alert {
-  width: 40%;
+  width: 30%;
   position: fixed;
-  top: 20px;
+  top: 40px;
   right: 20px;
   z-index: 55555555;
   transition: opacity 0.5s ease-out;
   opacity: 1;
+  border-radius: 0;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .alert.fade-out {
   opacity: 0;
+}
+
+.alert-primary-custom {
+  border-left: 4px solid #0d6efd;
+}
+
+.alert-success-custom {
+  border-left: 4px solid #198754;
+}
+
+.alert-danger-custom {
+  border-left: 4px solid #dc3545;
+}
+
+.alert-warning-custom {
+  border-left: 4px solid #ffc107;
+}
+
+.alert-icon {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 40px;
+  padding-right: 15px;
+  flex-shrink: 0;
+  line-height: 1;
 }

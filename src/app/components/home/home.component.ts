@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
       this.getMe(this.token);
       this.getAllFriends(this.token);
       this.getPendingRequests(this.token);
-      this.getTransactions(this.token);
+      this.getPendingTransactions(this.token);
     } else {
       this.router.navigate(['/login']);
     }
@@ -95,8 +95,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private getTransactions(token: string) {
-    this.transactionService.getTransactions(token).subscribe({
+  private getPendingTransactions(token: string) {
+    this.transactionService.getPendingTransactions(token).subscribe({
       next: (res) => {
         if (res) {
           this.transactions = res;
@@ -123,37 +123,6 @@ export class HomeComponent implements OnInit {
         this.alertService.showAutoAlertError(err);
       },
     });
-  }
-
-  public requestMoney(): void {
-    if (this.requestAmount <= 0) {
-      this.alertService.showAlert('warning', 'Amount must be greater than 0');
-    }
-
-    if (!this.requestUser) {
-      this.alertService.showAlert('warning', 'You should select a user');
-    }
-
-    if (!this.requestCreditCard) {
-      this.alertService.showAlert('warning', 'You should select a user');
-    }
-
-    this.transactionService
-      .requestMoney(
-        this.requestAmount,
-        this.requestUser.dni,
-        this.requestMessage,
-        this.requestCreditCard,
-        this.token
-      )
-      .subscribe({
-        next: (res) => {
-          this.alertService.showAlert('success', 'Request sent successfully');
-        },
-        error: (err) => {
-          this.alertService.showAutoAlertError(err);
-        },
-      });
   }
 
   public formatCardNumber(): void {
@@ -358,6 +327,14 @@ export class HomeComponent implements OnInit {
   }
 
   public sendMoney(): void {
+    this.router.navigate(['/send']);
+  }
+
+  public requestMoney(): void {
     this.router.navigate(['/request']);
+  }
+
+  public manageRequest(requestId: number): void {
+    this.router.navigate(['/request-manage/' + requestId]);
   }
 }

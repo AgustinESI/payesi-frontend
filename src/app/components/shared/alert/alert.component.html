@@ -1,20 +1,21 @@
 <div
   *ngIf="showAlert"
-  class="alert alert-{{ type }}"
+  class="alert alert-{{ type }}-custom alert-{{
+    type
+  }} p-4 d-flex align-items-start gap-3"
   [ngClass]="{ 'fade-out': fadeOut }"
   role="alert"
 >
-  <div class="row">
-    <h4></h4>
-  </div>
-  <div class="row">
-    <div class="col-1">
-      <span aria-hidden="true">
-        <i [ngClass]="getIcon()"></i>
-      </span>
-    </div>
-    <div class="col-11">
-      {{ message }}
-    </div>
-  </div>
+  <i class="alert-icon" [ngClass]="getIcon()" aria-hidden="true"></i>
+  <span class="alert-body">
+    <h6 class="alert-header mb-1">{{ getTitle() }}</h6>
+    <p class="mb-0">{{ message }}</p>
+  </span>
+
+  <button
+    type="button"
+    class="btn-close position-absolute top-0 end-0 m-3"
+    aria-label="Close"
+    (click)="closeAlert()"
+  ></button>
 </div>

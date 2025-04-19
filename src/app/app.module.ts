@@ -18,6 +18,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserFilterPipe } from './pipes/user-filter.pipe';
 import { MoneyComponent } from './components/money/money.component';
+import { RequestMoneyComponent } from './components/request-money/request-money.component';
+import { RequestManageComponent } from './components/request-manage/request-manage.component';
+import { FriendsComponent } from './components/friends/friends.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -35,6 +38,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminComponent,
     UserFilterPipe,
     MoneyComponent,
+    RequestMoneyComponent,
+    RequestManageComponent,
+    FriendsComponent,
   ],
   imports: [
     BrowserModule,

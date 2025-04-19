@@ -1,0 +1,201 @@
+<div class="main-container">
+  <div class="container mt-5">
+    <!-- Breadcrumb -->
+    <div class="row">
+      <div class="col">
+        <nav
+          aria-label="breadcrumb"
+          class="bg-body-tertiary rounded-3 p-3 mb-4"
+        >
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item">
+              {{ "request.management" | translate }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="transaction-content py-5">
+      <div
+        class="card shadow-lg rounded-4 border-0 position-relative overflow-hidden"
+      >
+        <div class="card-body text-center fancy-card-body">
+          <!-- Optional background graphic -->
+          <div class="bg-illustration"></div>
+
+          <!-- Status -->
+          <span class="badge bg-warning text-dark mb-3 text-uppercase">
+            {{ transaction.status }}
+          </span>
+
+          <!-- Title -->
+          <h4 class="fw-bold mb-4 text-muted">
+            {{ "money.request" | translate }}
+          </h4>
+
+          <!-- Sender and Receiver -->
+          <div class="row align-items-center justify-content-center mt-5 mb-5">
+            <!-- Sender -->
+            <div class="col-4 text-end">
+              <div class="d-flex flex-column align-items-end">
+                <span class="badge bg-secondary mb-1">{{
+                  "money.sender" | translate
+                }}</span>
+                <div class="d-flex justify-content-end align-items-center">
+                  <img
+                    alt="Sender"
+                    class="avatar me-2"
+                    [src]="
+                      user.image
+                        ? 'data:image/png;base64,' + user.image
+                        : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                    "
+                  />
+                  <h5 class="fw-semibold mb-0">
+                    {{ transaction.sender_name }}
+                  </h5>
+                </div>
+              </div>
+            </div>
+
+            <!-- Arrow -->
+            <div
+              class="col-1 d-flex flex-column align-items-center justify-content-center position-relative"
+            >
+              <div class="timeline-dot mb-1"></div>
+              <div class="arrow-line-fancy"></div>
+              <i class="bi bi-chevron-double-right arrow-icon"></i>
+              <div class="timeline-dot mt-1"></div>
+            </div>
+
+            <!-- Receiver -->
+            <div class="col-4 text-start">
+              <div class="d-flex flex-column align-items-start">
+                <span class="badge bg-primary mb-1">{{
+                  "money.receiver" | translate
+                }}</span>
+                <div class="d-flex justify-content-start align-items-center">
+                  <img
+                    alt="Receiver"
+                    class="avatar ms-2"
+                    [src]="
+                      receiver.image
+                        ? 'data:image/png;base64,' + receiver.image
+                        : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                    "
+                  />
+                  <h5 class="fw-semibold mb-0 ms-2">
+                    {{ transaction.receiver_name }}
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Amount -->
+          <p class="mt-3 fs-5 text-muted">
+            Amount: <strong>{{ transaction.amount }} €</strong>
+          </p>
+
+          <!-- Note -->
+          <div class="mt-3">
+            <p class="text-muted">
+              <strong>{{ "money.message" | translate }}</strong>
+              {{ transaction.message || ("request.no_message" | translate) }}
+            </p>
+          </div>
+
+          <!-- Metadata -->
+          <div class="text-muted mt-2">
+            <small
+              >{{ "money.date" | translate }}: {{ transaction.date }}</small
+            >
+          </div>
+
+          <!-- Buttons -->
+          <div class="mt-4 d-flex justify-content-center gap-3">
+            <button
+              class="btn btn-success px-4 py-2 shadow-sm"
+              ngbTooltip="Accept this money request"
+              (click)="openCardSelector()"
+            >
+              <i class="bi bi-check-circle me-2"></i>
+              {{ "request.accept" | translate }}
+            </button>
+
+            <button
+              class="btn btn-danger px-4 py-2 shadow-sm"
+              ngbTooltip="Reject this money request"
+              (click)="rejectTransaction()"
+            >
+              <i class="bi bi-x-circle me-2"></i>
+              {{ "request.reject" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de selección de tarjeta -->
+<div
+  *ngIf="showCardSelector"
+  class="modal-backdrop-custom d-flex justify-content-center align-items-center"
+>
+  <div class="card card-selector shadow-lg rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">{{ "money.select.creditcard" | translate }}</h5>
+      <button
+        class="btn-close"
+        (click)="showCardSelector = false"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div *ngIf="user.credit_cards.length; else noCards">
+      <div
+        class="card mb-2 shadow-sm card-hover"
+        *ngFor="let card of user.credit_cards"
+        (click)="acceptTransaction(card)"
+      >
+        <div
+          class="card-body d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <strong>{{ card.card_holder_name }}</strong
+            ><br />
+            **** **** **** {{ card.number.slice(-4) }}<br />
+          </div>
+          <i class="bi bi-credit-card fs-4 text-primary"></i>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noCards>
+      <p class="text-muted">No credit cards available. Please add one first.</p>
+    </ng-template>
+  </div>
+</div>
+
+<div
+  *ngIf="isProcessing"
+  class="loading-overlay d-flex flex-column justify-content-center align-items-center"
+>
+  <div class="spinner-border text-primary mb-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <h5 class="text-white">{{ loadingMessage }}</h5>
+</div>
+
+<div
+  *ngIf="blocked"
+  class="loading-overlay d-flex flex-column justify-content-center align-items-center"
+>
+  <div class="spinner-border text-primary mb-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

@@ -28,20 +28,30 @@
       <ul class="navbar-nav ms-auto d-flex align-items-center gap-3">
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link text-center" href="/home">
-            <i class="fas fa-home fa-lg my-2"></i><span>Home</span>
+            <i class="fas fa-home fa-lg my-2"></i
+            ><span>{{ "navbar.home" | translate }}</span>
           </a>
         </li>
 
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link text-center" href="/admin">
-            <i class="fas fa-bell fa-lg my-2"></i><span>Administrator</span>
+            <i class="fas fa-bell fa-lg my-2"></i
+            ><span>{{ "navbar.administration" | translate }}</span>
           </a>
         </li>
 
         <li class="nav-item" *ngIf="isLoggedIn">
           <button class="nav-link text-center" (click)="openProfile()">
-            <i class="fas fa-user fa-lg my-2"></i><span>Profile</span>
+            <i class="fas fa-user fa-lg my-2"></i
+            ><span>{{ "navbar.profile" | translate }}</span>
           </button>
+        </li>
+
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link text-center" href="/friends">
+            <i class="fas fa-bell fa-lg my-2"></i
+            ><span>{{ "navbar.friends" | translate }}</span>
+          </a>
         </li>
 
         <!-- Language Selector -->
@@ -50,15 +60,20 @@
             class="form-select lang-selector"
             (change)="changeLang($event)"
           >
-            <option [selected]="lang === 'en'" value="en">English</option>
-            <option [selected]="lang === 'es'" value="es">Spanish</option>
+            <option [selected]="lang === 'en'" value="en">
+              {{ "lang.en" | translate }}
+            </option>
+            <option [selected]="lang === 'es'" value="es">
+              {{ "lang.es" | translate }}
+            </option>
           </select>
         </li>
 
         <!-- Logout Button -->
         <li class="nav-item" *ngIf="isLoggedIn">
           <button class="btn btn-danger logout-btn" (click)="logoutUser()">
-            <i class="fas fa-sign-out-alt"></i> Logout
+            <i class="fas fa-sign-out-alt"></i>
+            {{ "navbar.logout" | translate }}
           </button>
         </li>
       </ul>

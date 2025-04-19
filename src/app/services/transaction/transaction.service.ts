@@ -19,6 +19,28 @@ export class TransactionService {
     });
   }
 
+  public getPendingTransactions(token: string): Observable<any> {
+    const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
+
+    return this.httpClient.get(
+      APP_CONSTANTS.API_BASE_URL + 'transactions/pending',
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  getTransactionById(token: string, request_id: string): Observable<any> {
+    const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
+
+    return this.httpClient.get(
+      APP_CONSTANTS.API_BASE_URL + 'transactions/' + request_id,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
   public sendMoney(
     token: string,
     amount: string,
@@ -49,21 +71,51 @@ export class TransactionService {
     requestAmount: number,
     dni: string,
     requestMessage: string,
-    requestCreditCard: CreditCard,
     token: string
   ): Observable<any> {
     var body = {
-      cardNumber: requestCreditCard,
       amount: requestAmount,
-      dni: dni,
+      sender_dni: dni,
       message: requestMessage,
     };
 
     const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
 
     return this.httpClient.post(
-      APP_CONSTANTS.API_BASE_URL + 'credit-card/transaction',
+      APP_CONSTANTS.API_BASE_URL + 'transactions/createrequest',
       body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public acceptTransaction(
+    request_id: number,
+    card_number: string,
+    token: string
+  ): Observable<any> {
+    const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
+
+    var body = {
+      card_number: card_number,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'transactions/acceptrequest/' + request_id,
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public rejectTransaction(request_id: number, token: string): Observable<any> {
+    const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'transactions/rejectrequest/' + request_id,
+      {},
       {
         headers: authHeaders,
       }

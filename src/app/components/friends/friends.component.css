@@ -1,0 +1,8 @@
+.friends-section {
+  background-color: #eee;
+  padding-top: 80px !important;
+}
+
+.btn-fixed-width {
+  min-width: 130px;
+}

@@ -43,6 +43,21 @@ export class AlertComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getTitle(): string {
+    switch (this.type) {
+      case 'success':
+        return 'Success';
+      case 'danger':
+        return 'Error';
+      case 'warning':
+        return 'Warning';
+      case 'primary':
+        return 'Info';
+      default:
+        return 'Info';
+    }
+  }
+
   public getIcon(): string {
     switch (this.type) {
       case 'success':
@@ -56,5 +71,10 @@ export class AlertComponent implements OnInit, OnDestroy {
       default:
         return 'bi bi-question-circle';
     }
+  }
+
+  public closeAlert(): void {
+    this.fadeOut = true;
+    setTimeout(() => {}, 300);
   }
 }

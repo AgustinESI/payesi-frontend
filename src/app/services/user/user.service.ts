@@ -103,7 +103,7 @@ export class UserService {
     );
   }
 
-  addFavourite(token: string, dni: string): Observable<any> {
+  public addFavourite(token: string, dni: string): Observable<any> {
     const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
     const body = {
       favourite_dni: dni,
@@ -111,6 +111,21 @@ export class UserService {
 
     return this.httpClient.post(
       APP_CONSTANTS.API_BASE_URL + 'friendship/favourite',
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public removeFavourite(token: string, dni: string): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+    const body = {
+      favourite_dni: dni,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'friendship/favourite/remove',
       body,
       {
         headers: authHeaders,
@@ -130,6 +145,36 @@ export class UserService {
 
     return this.httpClient.post(
       APP_CONSTANTS.API_BASE_URL + 'friendship/new',
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public blockUser(token: string, dni: string): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+    const body = {
+      blocked_dni: dni,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'friendship/block',
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
+  public unblockUser(token: string, dni: string): Observable<any> {
+    const authHeaders = this.headers.set('Authorization', `Bearer ${token}`);
+    const body = {
+      blocked_dni: dni,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'friendship/unblock',
       body,
       {
         headers: authHeaders,

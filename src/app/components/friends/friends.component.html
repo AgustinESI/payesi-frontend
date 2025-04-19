@@ -1,0 +1,149 @@
+<section class="friends-section">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav
+          aria-label="breadcrumb"
+          class="bg-body-tertiary rounded-3 p-3 mb-4"
+        >
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item">
+              <a href="/profile/{{ user.dni }}"> {{ user.name }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ "friends.title" | translate }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="row mt-4 mb-3">
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          [placeholder]="'friends.search.placeholder' | translate"
+          [(ngModel)]="searchTerm"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <h3 class="mb-4">{{ "friends.list.users" | translate }}</h3>
+      <div class="alert alert-info" *ngIf="usersAll.length === 0">
+        {{ "friends.no.users" | translate }}
+      </div>
+
+      <div class="row">
+        <div *ngIf="usersAll.length > 0">
+          <div
+            class="card mb-3 shadow-sm rounded-3"
+            *ngFor="let user of usersAll | userFilter : searchTerm"
+          >
+            <div class="card-body d-flex align-items-center">
+              <!-- Avatar -->
+              <img
+                [src]="
+                  user.image
+                    ? 'data:image/png;base64,' + user.image
+                    : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
+                "
+                alt="Avatar de usuario"
+                class="rounded-circle me-3"
+                width="60"
+                height="60"
+              />
+
+              <!-- Nombre y correo -->
+              <div>
+                <h5 class="card-title mb-1">{{ user.name }}</h5>
+                <p class="card-text text-muted mb-0">{{ user.email }}</p>
+              </div>
+
+              <!-- Botones -->
+              <div class="ms-auto d-flex align-items-center gap-2">
+                <!-- Favorito -->
+                <button
+                  class="btn btn-outline-warning btn-sm btn-fixed-width"
+                  (click)="
+                    isFavorite(user) ? removeFavorite(user) : addFavorite(user)
+                  "
+                  [title]="'friend.favorite' | translate"
+                >
+                  <i
+                    [ngClass]="{
+                      'bi-star-fill': isFavorite(user),
+                      'bi-star': !isFavorite(user)
+                    }"
+                    class="bi me-1"
+                  ></i>
+                  {{
+                    isFavorite(user)
+                      ? ("friend.quit" | translate)
+                      : ("friend.favorite" | translate)
+                  }}
+                </button>
+
+                <!-- Amigo -->
+                <button
+                  class="btn btn-outline-success btn-sm btn-fixed-width"
+                  (click)="
+                    isFriend(user) ? removeFriend(user) : addFriend(user)
+                  "
+                  [title]="'friend.label' | translate"
+                >
+                  <i
+                    [ngClass]="{
+                      'bi-person-dash-fill': isFriend(user),
+                      'bi-person-plus-fill': !isFriend(user)
+                    }"
+                    class="bi me-1"
+                  ></i>
+                  {{
+                    isFriend(user)
+                      ? ("friend.remove" | translate)
+                      : ("friend.label" | translate)
+                  }}
+                </button>
+
+                <!-- Ver perfil -->
+                <button
+                  class="btn btn-outline-secondary btn-sm btn-fixed-width"
+                  (click)="viewUserProfile(user)"
+                  [title]="'friend.profile' | translate"
+                >
+                  <i class="bi bi-person-lines-fill me-1"></i>
+                  {{ "friend.profile" | translate }}
+                </button>
+
+                <!-- Bloquear -->
+                <button
+                  class="btn btn-outline-danger btn-sm btn-fixed-width"
+                  (click)="
+                    isBlocked(user) ? unblockUser(user) : blockUser(user)
+                  "
+                  [title]="'friend.block' | translate"
+                >
+                  <i
+                    [ngClass]="{
+                      'bi-person-x-fill': isBlocked(user),
+                      'bi-shield-slash': !isBlocked(user)
+                    }"
+                    class="bi me-1"
+                  ></i>
+                  {{
+                    isBlocked(user)
+                      ? ("friend.unblock" | translate)
+                      : ("friend.block" | translate)
+                  }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

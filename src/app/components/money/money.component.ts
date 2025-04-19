@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/authentication/auth.service';
 import { UserService } from '../../services/user/user.service';
@@ -22,6 +29,8 @@ export class MoneyComponent implements OnInit {
     private router: Router,
     private transactionService: TransactionService
   ) {}
+
+  @ViewChildren('transactionElem') transactionElems!: QueryList<ElementRef>;
 
   public steps = ['Credit Card', 'Friend', 'Money', 'Confirmation'];
   public currentStep: number = 0;
@@ -48,11 +57,25 @@ export class MoneyComponent implements OnInit {
     }
   }
 
-  private getTransactions(token: string): void {
+  private getTransactions(token: string, scroll: boolean): void {
     this.transactionService.getTransactions(token).subscribe({
       next: (res) => {
         if (res) {
           this.transactions = res;
+
+          if (scroll) {
+            setTimeout(() => {
+              const elements = this.transactionElems.toArray();
+              const lastElem = elements[elements.length - 1];
+
+              if (lastElem) {
+                lastElem.nativeElement.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center',
+                });
+              }
+            }, 100);
+          }
         }
       },
       error: (err) => {
@@ -66,7 +89,7 @@ export class MoneyComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.user = res;
-          this.getTransactions(token);
+          this.getTransactions(token, false);
         }
       },
       error: (err) => {
@@ -155,10 +178,10 @@ export class MoneyComponent implements OnInit {
       var amount =
         parseFloat(this.selectedAmount) / this.groupSelectedFriends.length;
       for (let i = 0; i < this.groupSelectedFriends.length; i++) {
-        this.sendMoneyRequest(this.groupSelectedFriends[i], amount.toString());
+        this.sendMoneyToUser(this.groupSelectedFriends[i], amount.toString());
       }
     } else {
-      this.sendMoneyRequest(this.selectedfriend, this.selectedAmount);
+      this.sendMoneyToUser(this.selectedfriend, this.selectedAmount);
     }
 
     this.currentStep = 0;
@@ -169,7 +192,7 @@ export class MoneyComponent implements OnInit {
     this.groupSelectedFriends = [];
   }
 
-  private sendMoneyRequest(friend: Friend, amount: string): void {
+  private sendMoneyToUser(friend: Friend, amount: string): void {
     this.transactionService
       .sendMoney(
         this.token,
@@ -185,7 +208,7 @@ export class MoneyComponent implements OnInit {
             'Money sent successfully to ' + friend.name
           );
 
-          this.getTransactions(this.token);
+          this.getTransactions(this.token, true);
         },
         error: (err) => {
           this.alertService.showAutoAlertError(err);

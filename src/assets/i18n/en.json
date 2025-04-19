@@ -21,6 +21,7 @@
   "home.no.friends": "No friends yet",
   "home.no.start": "Start adding friends to your network",
   "home.view.profile": "View profile",
+  "home.no.pending.transactions": "No pending transactions",
 
   "home.modal.card.number": "Card number",
   "home.modal.card.name": "Cardholder name",
@@ -69,5 +70,47 @@
   "profile.backendAPI": "Backend API",
   "profile.uploadImage": "Upload Profile Image",
   "profile.selectedFile": "Selected File",
-  "profile.close": "Close"
+  "profile.close": "Close",
+
+  "money.send": "Send Money",
+  "money.select.creditcard": "Select a credit card",
+  "money.select.friend": "Select a friend",
+  "money.share.cost": "Share costs with multiple users",
+  "money.recent.transactions": "Recent transactions",
+  "money.select.amount": "Select an amount",
+  "money.amount": "Amount",
+  "money.amount.selected": "Amount selected",
+  "money.message": "Message",
+  "money.sent.to": "Sent to",
+  "money.received.from": "Received from",
+  "money.next": "Next",
+  "money.back": "Back",
+  "money.friends": "Friends",
+  "money.favorites": "Favorites",
+  "money.recents": "Recents",
+  "money.request": "Request Money",
+  "money.sender": "Sender",
+  "money.receiver": "Receiver",
+  "money.date": "Date",
+
+  "navbar.home": "Home",
+  "navbar.profile": "Profile",
+  "navbar.administration": "Administration",
+  "navbar.logout": "Logout",
+  "navbar.friends": "Friends",
+
+  "lang.en": "English",
+  "lang.es": "Espanish",
+
+  "request.accept": "Accept",
+  "request.reject": "Reject",
+  "request.no_message": "No message",
+
+  "friend.quit": "Quit",
+  "friend.favorite": "Favorite",
+  "friend.label": "Friend",
+  "friend.remove": "Remove",
+  "friend.profile": "Profile",
+  "friend.block": "Block",
+  "friend.unblock": "Unblock"
 }

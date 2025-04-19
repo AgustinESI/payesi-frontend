@@ -16,7 +16,7 @@
 
     <div class="row">
       <div class="card shadow rounded p-4">
-        <h4 class="mb-4">{{ "money.send" | translate }}</h4>
+        <h4 class="mb-4">{{ "money.request" | translate }}</h4>
 
         <!-- Stepper -->
         <div class="stepper-container position-relative mb-5">
@@ -51,50 +51,7 @@
         <!-- Content Based on Step -->
         <div class="mb-4 w-100">
           <div *ngIf="currentStep === 0">
-            <h4>{{ "money.select.creditcard" | translate }}</h4>
-            <div class="selector">
-              <div
-                *ngFor="let card of user.credit_cards"
-                class="card-item"
-                [class.selected]="selectedCreditCard === card"
-                (click)="selectCard(card)"
-              >
-                <div class="card-icon text-primary">
-                  <img
-                    width="60%"
-                    [src]="'../../../assets/credit-card/' + card.type + '.svg'"
-                    alt="icon"
-                  />
-                </div>
-                <div class="card-info">
-                  <strong>{{ card.card_holder_name }}</strong>
-                  <div>{{ card.number }}</div>
-                  <small class="text-muted"
-                    >Exp: {{ card.expiration_date }}</small
-                  >
-                </div>
-                <div class="checkmark" *ngIf="selectedCreditCard === card">
-                  ✔
-                </div>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="currentStep === 1">
             <h4>{{ "money.select.friend" | translate }}</h4>
-
-            <div class="row" style="margin: 20px 0 20px 2px">
-              <div class="alert alert-info d-flex align-items-center gap-2">
-                <input
-                  class="form-check-input mt-0"
-                  type="checkbox"
-                  id="shareCosts"
-                  [(ngModel)]="groupUser"
-                />
-                <label class="form-check-label fw-bold mb-0" for="shareCosts">
-                  {{ "money.share.cost" | translate }}
-                </label>
-              </div>
-            </div>
 
             <div class="selector-users">
               <div class="row justify-content-center">
@@ -167,7 +124,7 @@
               </div>
             </div>
           </div>
-          <div *ngIf="currentStep === 2">
+          <div *ngIf="currentStep === 1">
             <h4>{{ "money.select.amount" | translate }}</h4>
 
             <div class="selector">
@@ -211,78 +168,31 @@
               </div>
             </div>
           </div>
-          <div *ngIf="currentStep === 3">
+          <div *ngIf="currentStep === 2">
             <div class="selector">
               <div
                 class="container d-flex justify-content-center align-items-center"
               >
                 <div class="row">
                   <div class="col-6">
-                    <div class="card-item">
+                    <div
+                      *ngFor="let userSelected of selectedFriends"
+                      class="card-item"
+                    >
                       <div class="card-icon text-primary">
                         <img
-                          width="60%"
                           [src]="
-                            '../../../assets/credit-card/' +
-                            selectedCreditCard.type +
-                            '.svg'
+                            userSelected.image
+                              ? 'data:image/png;base64,' + userSelected.image
+                              : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
                           "
-                          alt="icon"
+                          alt="avatar"
+                          class="rounded-circle img-fluid"
+                          style="width: 50px; height: 50px; object-fit: cover"
                         />
                       </div>
                       <div class="card-info">
-                        <strong>{{
-                          selectedCreditCard.card_holder_name
-                        }}</strong>
-                        <div>{{ selectedCreditCard.number }}</div>
-                        <small class="text-muted"
-                          >Exp: {{ selectedCreditCard.expiration_date }}</small
-                        >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div *ngIf="groupUser">
-                      <div
-                        *ngFor="let userSelected of groupSelectedFriends"
-                        class="card-item"
-                      >
-                        <div class="card-icon text-primary">
-                          <img
-                            [src]="
-                              userSelected.image
-                                ? 'data:image/png;base64,' + userSelected.image
-                                : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
-                            "
-                            alt="avatar"
-                            class="rounded-circle img-fluid"
-                            style="width: 50px; height: 50px; object-fit: cover"
-                          />
-                        </div>
-                        <div class="card-info">
-                          <strong>{{ userSelected.name }}</strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div *ngIf="!groupUser">
-                      <div class="card-item">
-                        <div class="card-icon text-primary">
-                          <img
-                            [src]="
-                              selectedfriend.image
-                                ? 'data:image/png;base64,' +
-                                  selectedfriend.image
-                                : 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
-                            "
-                            alt="avatar"
-                            class="rounded-circle img-fluid"
-                            style="width: 50px; height: 50px; object-fit: cover"
-                          />
-                        </div>
-                        <div class="card-info">
-                          <strong>{{ selectedfriend.name }}</strong>
-                        </div>
+                        <strong>{{ userSelected.name }}</strong>
                       </div>
                     </div>
                   </div>
@@ -326,17 +236,17 @@
           <button
             class="btn btn-primary"
             (click)="nextStep()"
-            *ngIf="currentStep != 3"
+            *ngIf="currentStep != 2"
             [disabled]="currentStep === steps.length - 1"
           >
             {{ "money.next" | translate }}
           </button>
           <button
             class="btn btn-primary"
-            (click)="sendMoney()"
-            *ngIf="currentStep === 3"
+            (click)="requestMoney()"
+            *ngIf="currentStep === 2"
           >
-            {{ "money.send" | translate }}
+            {{ "money.request" | translate }}
           </button>
         </div>
       </div>

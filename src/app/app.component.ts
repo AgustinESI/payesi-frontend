@@ -28,13 +28,15 @@ export class AppComponent implements AfterViewInit {
         currentPath === '/login' ||
         currentPath === '/register' ||
         currentPath === '/admin' ||
-        currentPath === '/request'
+        currentPath === '/send' ||
+        currentPath === '/request' ||
+        currentPath === '/friends' ||
+        currentPath.includes('/profile') ||
+        currentPath.includes('/request-manage')
       ) {
         return; // Prevent navigation if we are already on login or register page
       }
 
-      const isSessionSaved =
-        localStorage.getItem(APP_CONSTANTS.STORAGE_SESSION_NAME) === 'true';
       let token =
         localStorage.getItem(APP_CONSTANTS.STORAGE_TOKEN_NAME) ||
         sessionStorage.getItem(APP_CONSTANTS.STORAGE_TOKEN_NAME);

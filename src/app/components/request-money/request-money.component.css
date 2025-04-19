@@ -1,0 +1,163 @@
+.main-container {
+  padding-top: 80px !important;
+}
+
+.stepper-container {
+  position: relative;
+  padding: 0 20px;
+}
+
+.stepper-line {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 1;
+  border-radius: 2px;
+}
+
+.stepper-line-progress {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  height: 4px;
+  z-index: 2;
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
+.stepper-steps {
+  position: relative;
+  z-index: 3;
+}
+
+.stepper-step {
+  flex: 1;
+  text-align: center;
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  color: white;
+  margin: 0 auto;
+  font-weight: bold;
+  z-index: 3;
+}
+
+.credit-card {
+  border: 1px solid #ccc;
+}
+
+.icon-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-container img {
+  width: 30px;
+  height: 30px;
+}
+
+.selector {
+  background-color: #f9fafb !important;
+  padding: 40px !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.selector-users {
+  background-color: #f9fafb !important;
+  padding: 40px !important;
+  gap: 1rem;
+}
+
+.card-item {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  width: 300px;
+  transition: border 0.3s, background-color 0.3s;
+  background-color: white;
+  position: relative;
+}
+
+.card-item:hover {
+  background-color: #f9f9f9;
+}
+
+.card-item.selected {
+  border-color: #a78bfa;
+  background-color: #f3f0ff;
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+}
+
+.card-info {
+  flex-grow: 1;
+}
+
+.checkmark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #a78bfa;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.transaction-card {
+  border-left: 4px solid transparent;
+  padding: 15px 0;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.sent-amount {
+  color: #dc3545;
+}
+.received-amount {
+  color: #28a745;
+}
+.transaction-note {
+  color: #6c757d;
+  font-style: italic;
+}
+hr {
+  margin: 0.5rem 0;
+  opacity: 0.2;
+}
+
+.transactions-content {
+  margin-top: 50px !important;
+  margin-bottom: 50px !important;
+  background-color: #ffff !important;
+  padding: 50px !important;
+}
+
+.scrollable-container {
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
