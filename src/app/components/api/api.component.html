@@ -1,0 +1,107 @@
+<section class="api-key-section">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <h3 class="mb-4">{{ "api.title" | translate }}</h3>
+        <p>{{ "api.description" | translate }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <form (ngSubmit)="requestApiKey()">
+          <div class="form-outline mb-4">
+            <input
+              type="text"
+              id="applicationName"
+              class="form-control"
+              [(ngModel)]="applicationName"
+              name="applicationName"
+              required
+              placeholder="{{ 'api.app_name' | translate }}"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            [disabled]="isLoading"
+          >
+            {{ "api.submit" | translate }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col">
+        <h4>Existing API Keys</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Application Name</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let key of apiKeys">
+              <td>{{ key.name }}</td>
+              <td>{{ key.created_at | date: 'short' }}</td>
+              <td>
+                <button
+                  class="btn btn-warning btn-sm me-2"
+                  (click)="updateApiKey(key.id)"
+                >
+                <i class="bi bi-arrow-repeat"></i>
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="deleteApiKey(key.id)"
+                >
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="apiKeyModal"
+    tabindex="-1"
+    aria-labelledby="apiKeyModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="apiKeyModalLabel">Your API Key</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Your API Key is:</p>
+          <strong>{{ apiKey }}</strong>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

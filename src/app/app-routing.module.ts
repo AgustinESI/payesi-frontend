@@ -9,6 +9,7 @@ import { MoneyComponent } from './components/money/money.component';
 import { RequestMoneyComponent } from './components/request-money/request-money.component';
 import { RequestManageComponent } from './components/request-manage/request-manage.component';
 import { FriendsComponent } from './components/friends/friends.component';
+import { ApiComponent } from './components/api/api.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'request', component: RequestMoneyComponent },
   { path: 'request-manage/:id', component: RequestManageComponent },
   { path: 'friends', component: FriendsComponent },
+  { path: 'api', component: ApiComponent },
 ];
 
 @NgModule({

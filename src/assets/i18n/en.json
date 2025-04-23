@@ -98,6 +98,7 @@
   "navbar.administration": "Administration",
   "navbar.logout": "Logout",
   "navbar.friends": "Friends",
+  "navbar.api": "API",
 
   "lang.en": "English",
   "lang.es": "Espanish",
@@ -112,5 +113,10 @@
   "friend.remove": "Remove",
   "friend.profile": "Profile",
   "friend.block": "Block",
-  "friend.unblock": "Unblock"
+  "friend.unblock": "Unblock",
+
+  "api.title": "PayEsi's API",
+  "api.description": "PayEsi's API is a powerfull tool that allows developer to integrate PayEsi's services into their applications and services.",
+  "api.app_name": "App name",
+  "api.submit": "Send request"
 }

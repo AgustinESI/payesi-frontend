@@ -98,11 +98,17 @@
   "navbar.administration": "Administración",
   "navbar.logout": "Cerrar sesión",
   "navbar.friends": "Amigos",
+  "navbar.api": "API",
 
   "lang.en": "Inglés",
   "lang.es": "Español",
 
   "request.accept": "Aceptar",
   "request.reject": "Rechazar",
-  "request.no_message": "Sin mensaje"
+  "request.no_message": "Sin mensaje",
+
+  "api.title": "API de PayEsi",
+  "api.description": "La API de PayEsi es una poderosa herramienta que permite a los desarrolladores integrar la funcionalidad de PayEsi en sus propias aplicaciones y servicios.",
+  "api.app_name": "Nombre de la aplicación",
+  "api.submit": "Enviar solicitud"
 }
