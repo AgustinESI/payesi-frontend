@@ -109,6 +109,16 @@
 
   "api.title": "API de PayEsi",
   "api.description": "La API de PayEsi es una poderosa herramienta que permite a los desarrolladores integrar la funcionalidad de PayEsi en sus propias aplicaciones y servicios.",
-  "api.app_name": "Nombre de la aplicación",
-  "api.submit": "Enviar solicitud"
+  "api.app.name": "Nombre de la aplicación",
+  "api.submit": "Enviar solicitud",
+  "api.modal.title": "Su nueva clave de API",
+  "api.modal.text": "Esta es su nueva clave de API.",
+  "api.modal.warning": "Guardala en un sitio seguro, ya que no podrás volver a verla.",
+  "api.modal.close": "Cerrar",
+  "api.existing.apis": "APIs existentes",
+  "api.app.names": "Nombres de aplicaciones",
+  "api.created.at": "Fecha de creación",
+  "api.actions": "Acciones",
+  "api.deleteKeybutton": "Eliminar esta clave de api",
+  "api.updateKeybutton": "Renovar esta clave de api"
 }

@@ -18,7 +18,7 @@
               [(ngModel)]="applicationName"
               name="applicationName"
               required
-              placeholder="{{ 'api.app_name' | translate }}"
+              placeholder="{{ 'api.app.name' | translate }}"
             />
           </div>
 
@@ -35,13 +35,13 @@
 
     <div class="row mt-5">
       <div class="col">
-        <h4>Existing API Keys</h4>
+        <h4>{{ "api.existing.apis" | translate}} ({{ apiKeys.length }}/{{maxApiKeys}})</h4>
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Application Name</th>
-              <th>Created At</th>
-              <th>Actions</th>
+              <th>{{"api.app.names" | translate}}</th>
+              <th>{{"api.created.at" | translate}}</th>
+              <th>{{ "api.actions" | translate}}</th>
             </tr>
           </thead>
           <tbody>
@@ -52,12 +52,14 @@
                 <button
                   class="btn btn-warning btn-sm me-2"
                   (click)="updateApiKey(key.id)"
+                  [title]="'api.updateKeybutton' | translate"
                 >
                 <i class="bi bi-arrow-repeat"></i>
                 </button>
                 <button
                   class="btn btn-danger btn-sm"
                   (click)="deleteApiKey(key.id)"
+                  [title]="'api.deleteKeybutton' | translate"
                 >
                   <i class="bi bi-trash3"></i>
                 </button>
@@ -80,7 +82,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="apiKeyModalLabel">Your API Key</h5>
+          <h5 class="modal-title" id="apiKeyModalLabel">{{"api.modal.title" | translate}}</h5>
           <button
             type="button"
             class="btn-close"
@@ -89,7 +91,10 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p>Your API Key is:</p>
+          <p>{{"api.modal.text" | translate}}</p>
+          <p class="text-danger">
+            {{ "api.modal.warning" | translate }}
+          </p>
           <strong>{{ apiKey }}</strong>
         </div>
         <div class="modal-footer">
@@ -98,7 +103,7 @@
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
-            Close
+            {{ "api.modal.close" | translate }}
           </button>
         </div>
       </div>

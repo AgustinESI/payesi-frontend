@@ -19,6 +19,7 @@ export class ApiComponent {
   private token: string = '';
   public user: User = {} as User;
   public apiKeys: any[] = []; // Array to store existing API keys
+  public maxApiKeys: number = 5; // Maximum number of API keys allowed
 
   constructor(
     private apiKeyService: ApiService,

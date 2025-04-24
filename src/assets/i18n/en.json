@@ -117,6 +117,16 @@
 
   "api.title": "PayEsi's API",
   "api.description": "PayEsi's API is a powerfull tool that allows developer to integrate PayEsi's services into their applications and services.",
-  "api.app_name": "App name",
-  "api.submit": "Send request"
+  "api.app.name": "App name",
+  "api.submit": "Send request",
+  "api.modal.title": "Your new API key",
+  "api.modal.text": "Here is your new API key.",
+  "api.modal.warning": "Please save it in a safe place, as you will not be able to see it again.",
+  "api.modal.close": "Close",
+  "api.existing.apis": "Existing APIs",
+  "api.app.names": "Application names",
+  "api.created.at": "Date of creation",
+  "api.actions": "Actions",
+  "api.deleteKeybutton": "Delete this api key",
+  "api.updateKeybutton": "Renew this api key"
 }
