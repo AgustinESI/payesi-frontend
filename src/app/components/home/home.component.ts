@@ -334,6 +334,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/request']);
   }
 
+  public transfer(): void {
+    this.router.navigate(['/transfer']);
+  }
+
   public manageRequest(requestId: number): void {
     this.router.navigate(['/request-manage/' + requestId]);
   }

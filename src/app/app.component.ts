@@ -32,6 +32,7 @@ export class AppComponent implements AfterViewInit {
         currentPath === '/request' ||
         currentPath === '/friends' ||
         currentPath === '/api' ||
+        currentPath === '/transfer' ||
         currentPath.includes('/profile') ||
         currentPath.includes('/request-manage')
       ) {

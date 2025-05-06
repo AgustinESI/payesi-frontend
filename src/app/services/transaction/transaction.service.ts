@@ -19,6 +19,29 @@ export class TransactionService {
     });
   }
 
+  public chargeFunds(
+    token: string,
+    amount: string,
+    credit_card_number: string
+  ): Observable<any> {
+    const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
+
+    alert('chargeFunds: ' + amount + ' ' + credit_card_number);
+
+    var body = {
+      amount: amount,
+      credit_card_number: credit_card_number,
+    };
+
+    return this.httpClient.post(
+      APP_CONSTANTS.API_BASE_URL + 'transactions/chargefunds',
+      body,
+      {
+        headers: authHeaders,
+      }
+    );
+  }
+
   public getPendingTransactions(token: string): Observable<any> {
     const authHeaders = this.headers.append('Authorization', `Bearer ${token}`);
 

@@ -1,0 +1,49 @@
+.profile-section {
+  background-color: #eee;
+  padding-top: 80px !important;
+}
+
+.custom-card {
+  max-width: 350px;
+  width: 100%;
+  background: linear-gradient(145deg, #0a98d6, #08338e);
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card .card-title,
+.custom-card .card-body,
+.custom-card .small {
+  color: #ffffff;
+}
+
+.transaction-card {
+  border-left: 4px solid transparent;
+  padding: 15px 0;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.sent-amount {
+  color: #dc3545;
+}
+.received-amount {
+  color: #28a745;
+}
+.transaction-note {
+  color: #6c757d;
+  font-style: italic;
+}
+hr {
+  margin: 0.5rem 0;
+  opacity: 0.2;
+}
+
+.transactions-content {
+  margin-top: 50px !important;
+  margin-bottom: 50px !important;
+  background-color: #ffff !important;
+  padding: 50px !important;
+}

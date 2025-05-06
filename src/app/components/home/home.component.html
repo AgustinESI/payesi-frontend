@@ -30,7 +30,11 @@
               <div class="card-text mt-4 mb-4">
                 <h1>{{ user.amount }} €</h1>
               </div>
-              <button type="button" class="btn btn-primary">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="transfer()"
+              >
                 {{ "home.transfer.money" | translate }}
               </button>
             </div>

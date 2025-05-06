@@ -1,0 +1,170 @@
+<section class="profile-section">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav
+          aria-label="breadcrumb"
+          class="bg-body-tertiary rounded-3 p-3 mb-4"
+        >
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item active">Transfer</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="row">
+      <div class="container my-5">
+        <div class="row justify-content-center align-items-start g-4">
+          <!-- Balance Card (Left) -->
+          <div class="col-12 col-md-5">
+            <div class="custom-card card text-center rounded-4 p-3 text-white">
+              <div class="card-title fs-5 fw-semibold mb-2">
+                {{ "transfer.available.balance" | translate }}
+              </div>
+              <div class="card-body">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <div class="fs-4 fw-bold">
+                    <h1>{{ user.amount }} €</h1>
+                  </div>
+                  <i class="bi bi-currency-exchange fs-1 text-warning"></i>
+                </div>
+                <div class="small">
+                  {{ "transfer.last.update" | translate }}:
+                  <span class="fw-semibold">06/05/2025</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Card (Right) -->
+          <div class="col-12 col-md-6">
+            <div class="card p-4 shadow-sm rounded-4 text-center">
+              <!-- Credit Card Select -->
+              <div class="mb-3 text-start">
+                <label for="cardSelect" class="form-label fw-semibold"
+                  >Seleccionar Tarjeta</label
+                >
+                <select
+                  id="cardSelect"
+                  class="form-select"
+                  [(ngModel)]="selectedCardId"
+                >
+                  <option
+                    *ngFor="let card of user.credit_cards"
+                    [value]="card.number"
+                  >
+                    **** **** **** {{ card.number.slice(-4) }} - {{ card.type }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Title -->
+              <h5 class="text-primary fw-bold mb-3">
+                {{ "transfer.add.money" | translate }}
+              </h5>
+
+              <!-- Amount Input -->
+              <div class="text-start mb-3">
+                <label for="amount" class="form-label fw-semibold">{{
+                  "transfer.amount" | translate
+                }}</label>
+                <div class="input-group">
+                  <span class="input-group-text">€</span>
+                  <input
+                    id="amount"
+                    type="number"
+                    class="form-control"
+                    [(ngModel)]="amount"
+                  />
+                </div>
+              </div>
+
+              <!-- Button -->
+              <button class="btn btn-primary w-100" (click)="chargefunds()">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="container py-4 transactions-content">
+        <h1 class="mb-4">{{ "money.recent.transactions" | translate }}</h1>
+
+        <div
+          #transactionElem
+          *ngFor="let tran of transactions"
+          class="transaction-card"
+          [ngClass]="{ 'transaction-sent': tran.sender_dni === user.dni }"
+        >
+          <div class="row">
+            <div class="col-4">
+              <div
+                *ngIf="tran.sender_dni != user.dni"
+                class="d-flex justify-content-center align-items-center"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  background-color: #dcfce7;
+                  color: #16a34a;
+                "
+              >
+                <i class="bi bi-arrow-up-right"></i>
+              </div>
+
+              <div
+                *ngIf="tran.sender_dni === user.dni"
+                class="d-flex justify-content-center align-items-center"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  background-color: #fee2e2;
+                  color: red;
+                "
+              >
+                <i class="bi bi-arrow-down-left"></i>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <h5 *ngIf="tran.sender_dni === user.dni" class="mb-1">
+                {{ "money.sent.to" | translate }} {{ tran.receiver_name }}
+              </h5>
+              <h5 *ngIf="tran.sender_dni != user.dni" class="mb-1">
+                {{ "money.received.from" | translate }} {{ tran.sender_name }}
+              </h5>
+              <p class="mb-1 text-muted small">{{ tran.date }}</p>
+              <p *ngIf="tran.message" class="mb-0 transaction-note">
+                "{{ tran.message }}"
+              </p>
+            </div>
+
+            <div class="col-4">
+              <span
+                *ngIf="tran.sender_dni === user.dni"
+                class="transaction-amount sent-amount"
+              >
+                -{{ tran.amount }}€
+              </span>
+
+              <span
+                *ngIf="tran.sender_dni != user.dni"
+                class="transaction-amount received-amount"
+              >
+                +{{ tran.amount }}€
+              </span>
+            </div>
+          </div>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

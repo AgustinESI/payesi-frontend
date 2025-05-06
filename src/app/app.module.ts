@@ -22,6 +22,7 @@ import { RequestMoneyComponent } from './components/request-money/request-money.
 import { RequestManageComponent } from './components/request-manage/request-manage.component';
 import { FriendsComponent } from './components/friends/friends.component';
 import { ApiComponent } from './components/api/api.component';
+import { TransferComponent } from './components/transfer/transfer.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -43,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RequestManageComponent,
     FriendsComponent,
     ApiComponent,
+    TransferComponent,
   ],
   imports: [
     BrowserModule,
