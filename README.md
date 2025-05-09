@@ -1,27 +1,30 @@
-# PayesiFrontend
+# PayESI – Frontend
+This project is an Angular-based frontend for interacting with the PayESI backend services. Below are the instructions on how to set up and run the application locally for development.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Prerequisites
+Ensure the following tools are installed on your system:
+- Node.js (v16.x or later recommended)
+- npm (comes with Node.js)
+- Angular CLI (v15 or later) – install it globally using:
+  ```
+  npm install -g @angular/cli
+  ```
+## Setting Up the Project
+1. Clone the repository:
+   ```
+   git clone <frontend-repository-url>
+   cd <frontend-project-directory>
+   ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
+## Running the Application
+To serve the Angular application locally, run the following command:
+ ```
+ng serve
+ ```
+By default, the application will be available at: `http://localhost:4200/`. You can specify a different port if needed:
+ ```
+ng serve --port 4300
+ ```
